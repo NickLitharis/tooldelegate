@@ -2,9 +2,9 @@
 
 This project will investigate when delegating deterministic transformations to CLI tools reduces model token consumption without sacrificing correctness. It is a scientific investigation, not a demonstration: negative results and failures must remain in the analysis.
 
-**Status: pilot executed (40/40 exploratory runs); main protocol not frozen.** The harness, live total-token accounting and resumable pilot executor are implemented. Pilot results: arm A 0/10 successes at 1,192,730 known tokens; B 8/10 at 36,496; C 9/10 at 37,701; D 7/10 at 91,106; five adapter errors have unknown usage. No non-inferiority, size-boundary or verification-tax claim is established. See `pilot-report/report.md` and `pilot/README.md`. Per-message token attribution and the main experiment remain outstanding. See the [execution restrictions](docs/execution.md), [model-run contract](docs/model-runs.md), [pilot workflow](docs/pilot.md) and [analysis instructions](docs/analysis.md).
+**Status: protocol frozen; main experiment executing (576 runs, resumable).** Suite v3, seed 2026, randomization seed 42, 48 tasks × 4 arms × 3 repetitions. The pilot (40 runs) and smoke checks are exploratory and never pooled with main data. Frozen settings and rationale: [docs/protocol.md](docs/protocol.md). Main artifacts are written under `main/`; the report will be generated from `main/records.jsonl` with `configs/analysis.main.json`. Per-message feedback/verification attribution remains null; H3 uses total input tokens and returned feedback bytes as an aggregate proxy. Pricing is deferred, so monetary cost is unknown, not zero.
 
-A **48-task dataset generator** is available: `cargo run --locked -- generate-suite DESTINATION SEED`. See [dataset coverage, scoring commands and limitations](tasks/README.md). The suite is not yet frozen for the main experiment.
+A **48-task dataset generator** is available: `cargo run --locked -- generate-suite DESTINATION SEED`. The frozen suite v3 dataset is committed under `dataset/`. See [dataset coverage, scoring commands and limitations](tasks/README.md).
 
 Generate a preliminary numeric sorting input with `cargo run -- /tmp/opencode/sorting-example 2026 10`. The destination must not exist. This is not yet the frozen benchmark dataset; its generator differs from the earlier Python prototype.
 

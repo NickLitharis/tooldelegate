@@ -96,8 +96,8 @@ Verification elapsed time, CPU, raw tool bytes, returned feedback bytes and cont
 cargo run --locked -- plan-runs DATASET NEW_PLAN.json 42 3
 ```
 
-This creates the paired 48 × 4 × 3 = 576 matrix and shuffles it reproducibly using a recorded, dataset-independent randomization seed. It neither authorizes spending nor executes runs. The main protocol still needs pilot review and freeze. Automated tests check the complete matrix, uniqueness, deterministic ordering and seed sensitivity.
+This creates the paired 48 × 4 × 3 = 576 matrix and shuffles it reproducibly using a recorded, dataset-independent randomization seed. The frozen protocol is in [protocol.md](protocol.md). Execution uses `run-plan`; the plan file alone spends no quota.
 
-## Gates still open
+## Status
 
-Document tokenizer attribution, record usage limits, and freeze the protocol after pilot review. The live connector probe verified total-token accounting and model pinning; `temperature` is rejected by the endpoint. Pricing remains deferred. No full benchmark or scientific comparison has been run. The [analysis and report commands](analysis.md) work with saved records and explicitly labelled synthetic fixtures.
+The protocol is frozen in [docs/protocol.md](protocol.md) and `configs/experiment.json`. The main experiment is executed with `plan-runs` and `run-plan`; records live under `main/` and resume from `main/index.jsonl`. Per-message attribution stays null by protocol; H3 uses total input tokens and returned feedback bytes. Pricing remains deferred. The pilot and smoke runs are excluded from main analysis.

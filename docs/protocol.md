@@ -42,7 +42,14 @@ A direct generation (`put` chunks), B CLI with bounded raw tool output, C CLI wi
 - Task-cluster bootstrap over 48 tasks, preserving paired repetitions; secondary comparisons are exploratory and not multiplicity-adjusted.
 - Failures, incomplete runs and unknown-usage runs remain in denominators. Known token totals are lower bounds when any usage is missing; no imputation.
 - H3 proxy: total input tokens for C versus D plus returned feedback bytes. Per-message feedback and verification attribution are null and must not be presented as measured.
-- Provider moderation failures are reported separately and in a labelled sensitivity analysis.
+- Provider moderation failures are reported separately and in a labelled sensitivity analysis. Build the sensitivity cohort from collected records, which classify `adapter_error` events:
+
+```sh
+jq -c 'select(([.failure_events[]?.category] | index("provider_content_rejection")) | not)' main/records.jsonl > main/records-no-content-rejections.jsonl
+cargo run --locked -- analyze main/records-no-content-rejections.jsonl main-report-sensitivity configs/analysis.main.json
+```
+
+  That report will list the excluded cells as missing; it is a sensitivity view, not the primary analysis.
 
 ## Reporting rules
 

@@ -68,6 +68,10 @@ pub fn collect(roots: &[PathBuf], destination: &Path) -> Result<()> {
                     Some("model_response")=>{if let Ok(usage)=serde_json::from_value::<Usage>(event["reply"]["usage"].clone()){metrics.add(&usage).map_err(|e|e.to_string())?;}},
                     Some("feedback")=>{metrics.returned_feedback_bytes+=event["bytes"].as_u64().ok_or("invalid feedback count")?;},
                     Some("malformed_action")=>events.push(json!({"category":"syntax_or_parsing_failure","line":index,"detail":diagnostic(&event["error"])})),
+                    Some("adapter_error")=>{
+                        let detail=diagnostic(&event["error"]);
+                        events.push(json!({"category":adapter_failure_category(&detail),"line":index,"detail":detail}));
+                    }
                     Some("action_error")=>{
                         let detail=diagnostic(&event["error"]);
                         let category=if detail.contains("unauthorized command")||detail.contains("action unavailable") {"tool_selection_failure"}
