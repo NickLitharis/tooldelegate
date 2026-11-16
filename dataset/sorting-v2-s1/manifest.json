@@ -1,0 +1,30 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "success",
+  "family": "sorting",
+  "generator_version": "suite-v3",
+  "id": "sorting-v2-s1",
+  "input_bytes": 10098,
+  "input_hashes": {
+    "input.csv": "1bc3dc0495e33a00ca6b8749ae447904c11a86927b5f0e784c2b61d4bf77de91"
+  },
+  "invariants": [
+    "ascending ordering under specified policy",
+    "row multiset preserved",
+    "header and schema preserved",
+    "stable equal keys",
+    "input unchanged"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "policy": "Sort value after ASCII-only lowercase mapping ascending, then secondary as integer descending. Empty values last, with secondary descending also applied among empty values; preserve input order when both keys compare equal. Non-ASCII characters are unchanged.",
+  "requirement": "Read input.csv using CSV-aware parsing. Sort value after ASCII-only lowercase mapping ascending, then secondary as integer descending. Empty values last, with secondary descending also applied among empty values; preserve input order when both keys compare equal. Non-ASCII characters are unchanged. Write output.csv with the same header and exact field values, preserving every row. Do not change input.csv.",
+  "seed": 2026,
+  "size_parameter": 200,
+  "size_unit": "rows",
+  "variant": 2
+}

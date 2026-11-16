@@ -8,7 +8,7 @@ cargo run --locked -- generate-suite /tmp/opencode/verified-cli-suite 2026
 
 The destination must not exist. Its parent must exist. Generation never writes reference answers. A failed generation may leave a partial directory; do not treat it as a complete dataset without checking `dataset.json` and all 48 manifests. Do not overwrite an existing dataset to regenerate it.
 
-There are four variants per family, each at size parameters 10, 1,000 and 100,000. Sorting and aggregation sizes count rows. Text sizes count repeated content blocks in the two main target files; nested fixtures have fixed size. Filesystem sizes count repeated content blocks, not files: bulk rename always has five renamed files. Thus artifact size varies without claiming to vary invocation complexity. Each manifest records actual input bytes separately.
+There are four variants per family, each at size parameters 10, 200 and 500. Sorting and aggregation sizes count rows. Text sizes count repeated content blocks in the two main target files; nested fixtures have fixed size. Filesystem sizes count repeated content blocks, not files: bulk rename always has five renamed files. Thus artifact size varies without claiming to vary invocation complexity. Each manifest records actual input bytes separately. Suite v3 caps the largest instance below the frozen 49,080-byte read budget, so direct generation is not censored by context mechanics before the transformation itself can be measured.
 
 | Family | v0 | v1 | v2 | v3 |
 | --- | --- | --- | --- | --- |

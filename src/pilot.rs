@@ -152,8 +152,8 @@ fn append(path: &Path, value: &Value) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn state(root: &Path, value: Value) -> Result<(), Box<dyn Error>> {
-    append(&root.join("pilot-state.jsonl"), &value)
+fn state(root: &Path, name: &str, value: Value) -> Result<(), Box<dyn Error>> {
+    append(&root.join(name), &value)
 }
 
 fn run_dir(root: &Path, entry: &Value) -> PathBuf {
@@ -345,6 +345,88 @@ pub fn execute(
     if plan["kind"] != "pilot_plan" {
         return Err("root does not contain a pilot plan".into());
     }
+    execute_plan(
+        dataset,
+        root,
+        plan,
+        config_path,
+        connector_path,
+        "pilot-state.jsonl",
+        "pilot-summary.json",
+    )
+}
+
+/// Executes an already randomized main-experiment plan produced by `plan-runs`.
+/// The root is created here and must not exist; the normalized plan and protocol
+/// lock live inside it, and execution resumes from `index.jsonl` on later calls.
+pub fn run_plan(
+    dataset: &Path,
+    plan_path: &Path,
+    root: &Path,
+    config_path: &Path,
+    connector_path: &Path,
+) -> Result<(), Box<dyn Error>> {
+    let mut plan = read_json(plan_path)?;
+    let runs = plan["runs"]
+        .as_array()
+        .cloned()
+        .ok_or("main plan has no runs")?;
+    if runs.is_empty() {
+        return Err("main plan is empty".into());
+    }
+    let (_, available) = dataset_ids(dataset)?;
+    let mut order = Vec::new();
+    let mut tasks = std::collections::BTreeSet::new();
+    let mut cells = std::collections::BTreeSet::new();
+    for (index, entry) in runs.iter().enumerate() {
+        let task = entry["task_id"].as_str().ok_or("plan task missing")?;
+        let arm = entry["arm"].as_str().ok_or("plan arm missing")?;
+        let repetition = entry["repetition"]
+            .as_u64()
+            .ok_or("plan repetition missing")?;
+        if !safe_id(task) || !available.iter().any(|id| id == task) {
+            return Err("plan task is not in the dataset".into());
+        }
+        if !matches!(arm, "A" | "B" | "C" | "D") {
+            return Err("plan arm must be A, B, C or D".into());
+        }
+        if !cells.insert((task.to_owned(), arm.to_owned(), repetition)) {
+            return Err("plan contains a duplicate matrix cell".into());
+        }
+        tasks.insert(task.to_owned());
+        order.push(json!({"index":index,"task_id":task,"arm":arm,"repetition":repetition}));
+    }
+    plan["kind"] = json!("experiment_plan");
+    plan["dataset_manifest_sha256"] = json!(dataset_key(dataset)?);
+    plan["tasks"] = json!(tasks.into_iter().collect::<Vec<_>>());
+    plan["runs"] = json!(order);
+    fs::create_dir(root)?;
+    let mut file = fs::OpenOptions::new()
+        .create_new(true)
+        .write(true)
+        .open(root.join("plan.json"))?;
+    file.write_all(&serde_json::to_vec_pretty(&plan)?)?;
+    execute_plan(
+        dataset,
+        root,
+        plan,
+        config_path,
+        connector_path,
+        "run-state.jsonl",
+        "run-summary.json",
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn execute_plan(
+    dataset: &Path,
+    root: &Path,
+    plan: Value,
+    config_path: &Path,
+    connector_path: &Path,
+    state_name: &str,
+    summary_name: &str,
+) -> Result<(), Box<dyn Error>> {
     if plan["dataset_manifest_sha256"].as_str() != Some(dataset_key(dataset)?.as_str()) {
         return Err("dataset manifest changed since the plan was created".into());
     }
@@ -373,17 +455,25 @@ pub fn execute(
         file.write_all(&serde_json::to_vec_pretty(&protocol)?)?;
     }
     fs::create_dir_all(root.join("runs"))?;
-    state(root, json!({"event":"execute_start","unix_seconds":now()}))?;
+    state(
+        root,
+        state_name,
+        json!({"event":"execute_start","unix_seconds":now()}),
+    )?;
 
     let done = terminal(&root.join("index.jsonl"))?;
     let pending = pending_entries(root, &plan, &done)?;
     if pending.is_empty() {
         let summary = summarize(root, &plan)?;
-        write_summary(root, &summary)?;
-        state(root, json!({"event":"complete","summary":summary}))?;
+        write_summary(root, summary_name, &summary)?;
+        state(
+            root,
+            state_name,
+            json!({"event":"complete","summary":summary}),
+        )?;
         println!(
             "{}",
-            json!({"status":"complete","summary":root.join("pilot-summary.json")})
+            json!({"status":"complete","summary":root.join(summary_name)})
         );
         return Ok(());
     }
@@ -424,12 +514,13 @@ pub fn execute(
                     }),
                 )?;
                 let summary = summarize(root, &plan)?;
-                write_summary(root, &summary)?;
+                write_summary(root, summary_name, &summary)?;
                 state(
                     root,
+                    state_name,
                     json!({"event":"stopped","reason":"run_setup_error","index":index,"error":error.to_string()}),
                 )?;
-                return Err(format!("pilot stopped at run {index}: {error}").into());
+                return Err(format!("stopped at run {index}: {error}").into());
             }
         };
         if let Some(reset) = quota_reset(&directory) {
@@ -440,16 +531,17 @@ pub fn execute(
                 serde_json::to_vec_pretty(&marker)?,
             )?;
             let summary = summarize(root, &plan)?;
-            write_summary(root, &summary)?;
+            write_summary(root, summary_name, &summary)?;
             state(
                 root,
+                state_name,
                 json!({"event":"blocked","reason":"quota","index":index,"resets_at":reset}),
             )?;
             println!(
                 "{}",
-                json!({"status":"blocked","reason":"quota","index":index,"resets_at":reset,"summary":root.join("pilot-summary.json")})
+                json!({"status":"blocked","reason":"quota","index":index,"resets_at":reset,"summary":root.join(summary_name)})
             );
-            return Err("pilot stopped by the subscription quota; resume after reset".into());
+            return Err("stopped by the subscription quota; resume after reset".into());
         }
         let termination = summary["termination"].as_str().unwrap_or("unknown");
         consecutive_adapter_errors = if termination == "adapter_error" {
@@ -472,34 +564,39 @@ pub fn execute(
         )?;
         if consecutive_adapter_errors >= 3 {
             let summary = summarize(root, &plan)?;
-            write_summary(root, &summary)?;
+            write_summary(root, summary_name, &summary)?;
             state(
                 root,
+                state_name,
                 json!({"event":"blocked","reason":"adapter_failures","index":index}),
             )?;
             println!(
                 "{}",
-                json!({"status":"blocked","reason":"adapter_failures","index":index,"summary":root.join("pilot-summary.json")})
+                json!({"status":"blocked","reason":"adapter_failures","index":index,"summary":root.join(summary_name)})
             );
-            return Err("pilot stopped after three consecutive adapter failures".into());
+            return Err("stopped after three consecutive adapter failures".into());
         }
     }
     let summary = summarize(root, &plan)?;
-    write_summary(root, &summary)?;
-    state(root, json!({"event":"complete","summary":summary}))?;
+    write_summary(root, summary_name, &summary)?;
+    state(
+        root,
+        state_name,
+        json!({"event":"complete","summary":summary}),
+    )?;
     println!(
         "{}",
-        json!({"status":"complete","summary":root.join("pilot-summary.json")})
+        json!({"status":"complete","summary":root.join(summary_name)})
     );
     Ok(())
 }
 
-fn write_summary(root: &Path, summary: &Value) -> Result<(), Box<dyn Error>> {
+fn write_summary(root: &Path, name: &str, summary: &Value) -> Result<(), Box<dyn Error>> {
     let mut file = fs::OpenOptions::new()
         .create(true)
         .truncate(true)
         .write(true)
-        .open(root.join("pilot-summary.json"))?;
+        .open(root.join(name))?;
     file.write_all(&serde_json::to_vec_pretty(summary)?)?;
     Ok(())
 }

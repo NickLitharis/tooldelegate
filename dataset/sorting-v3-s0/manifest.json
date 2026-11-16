@@ -1,0 +1,30 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "INVALID_TIMESTAMP",
+  "family": "sorting",
+  "generator_version": "suite-v3",
+  "id": "sorting-v3-s0",
+  "input_bytes": 655,
+  "input_hashes": {
+    "input.csv": "13f261db376a0529eb57f86547f98f6b8fcf2d7215b1d80b77f31afaa3365151"
+  },
+  "invariants": [
+    "ascending ordering under specified policy",
+    "row multiset preserved",
+    "header and schema preserved",
+    "stable equal keys",
+    "input unchanged"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "policy": "Sort value by UTC instant ascending. Accept RFC3339 timestamps with explicit offset and YYYY/MM/DD HH:MM:SS interpreted as UTC. Empty values last; stable ties. Preserve original timestamp spelling.",
+  "requirement": "Read input.csv using CSV-aware parsing. Sort value by UTC instant ascending. Accept RFC3339 timestamps with explicit offset and YYYY/MM/DD HH:MM:SS interpreted as UTC. Empty values last; stable ties. Preserve original timestamp spelling. Write output.csv with the same header and exact field values, preserving every row. Do not change input.csv. This instance contains invalid input. Validate all target data before making changes. On invalid input leave the entire input tree unchanged, create no output.csv or output.json, and write only result.json containing {\"error\":\"INVALID_TIMESTAMP\"}.",
+  "seed": 2026,
+  "size_parameter": 10,
+  "size_unit": "rows",
+  "variant": 3
+}

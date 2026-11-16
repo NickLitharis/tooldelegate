@@ -1,11 +1,39 @@
 {
-  "status": "draft",
+  "status": "frozen",
+  "frozen_at": "2026-11-17",
   "arms": ["A", "B", "C", "D"],
   "dataset_seed": 2026,
-  "pilot": {"tasks": 2, "repetitions_per_arm": 5},
-  "main": {"tasks": 48, "repetitions_per_arm": 3},
+  "dataset_version": "suite-v3",
+  "pilot": {
+    "tasks": 2,
+    "repetitions_per_arm": 5,
+    "note": "Exploratory only. Ran on suite-v2 sizes and an earlier interface; never pooled with main results."
+  },
+  "main": {
+    "tasks": 48,
+    "repetitions_per_arm": 3,
+    "randomization_seed": 42,
+    "plan": "main-plan.json"
+  },
   "success_non_inferiority_margin_percentage_points": 5,
-  "retry_budget": null,
-  "randomization_seed": null,
-  "limits": null
+  "margin_justification": "At most one additional failure per 20 runs (5 percentage points) in a non-safety-critical transformation workflow. Chosen before the main run and not tuned to results.",
+  "retry_budget": 1,
+  "limits": {
+    "config": "configs/run.luna.json",
+    "max_calls": 64,
+    "max_input_tokens": 300000,
+    "max_output_tokens": 128000,
+    "max_context_tokens": 400000,
+    "task_wall_seconds": 300,
+    "feedback_bytes": 65536,
+    "read_limit_bytes": 49080
+  },
+  "moderation_policy": "Provider content rejections are terminal failures. They are not retried, are recorded as adapter errors with unknown usage, remain in every denominator, and a sensitivity analysis reports results excluding only provider-rejection runs.",
+  "attribution_policy": "Only provider-reported total usage is recorded. Per-message feedback and verification attribution remain null. H3 is evaluated with total input tokens and returned feedback bytes as an aggregate proxy, never as per-message attribution.",
+  "analysis": {
+    "config": "configs/analysis.main.json",
+    "primary": "D versus A: total tokens and success non-inferiority",
+    "exploratory_secondary": ["B", "C", "size", "complexity"]
+  },
+  "pricing": null
 }

@@ -107,7 +107,8 @@ fn all_arms_count_usage_and_keep_oracle_out_of_context() {
                 assert!(!text.contains("oracle_pass"));
                 assert!(!text.contains("expected_outcome"));
                 assert!(!text.contains("provider_response"));
-                if arm == "A" {
+                if arm == "A" && event["call"] == 0 {
+                    // Input content may appear only after an explicit read call.
                     assert!(!text.contains("id,value,secondary,payload"));
                 }
             }

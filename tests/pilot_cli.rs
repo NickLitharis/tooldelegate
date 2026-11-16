@@ -208,6 +208,90 @@ fn sse_mocks(actions: &[Value]) -> Vec<Mock> {
 }
 
 #[test]
+fn main_plan_executes_and_resumes_with_run_artifacts() {
+    let root = setup();
+    let plan = root.join("main-plan.json");
+    fs::write(
+        &plan,
+        json!({
+            "status": "draft_not_authorized_for_execution",
+            "algorithm": "splitmix64-fisher-yates-v1",
+            "randomization_seed": 42,
+            "repetitions": 1,
+            "dataset": {"tasks": ["synthetic-task"], "seed": 2026},
+            "runs": [{"task_id": "synthetic-task", "arm": "B", "repetition": 2}]
+        })
+        .to_string(),
+    )
+    .unwrap();
+    let main = root.join("main");
+    let (port, server) = serve_sequence(
+        actions("B")
+            .iter()
+            .map(|action| action_stream(&action.to_string()))
+            .collect(),
+    );
+    let output = binary()
+        .args([
+            "run-plan",
+            root.join("dataset").to_str().unwrap(),
+            plan.to_str().unwrap(),
+            main.to_str().unwrap(),
+            root.join("config.json").to_str().unwrap(),
+            root.join("connector.json").to_str().unwrap(),
+        ])
+        .env("LUNA_ACCESS_TOKEN", "test-token")
+        .env("LUNA_ACCOUNT_ID", "test-account")
+        .env("LUNA_BASE_URL", format!("http://127.0.0.1:{port}"))
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    server.join().unwrap();
+    let normalized: Value =
+        serde_json::from_slice(&fs::read(main.join("plan.json")).unwrap()).unwrap();
+    assert_eq!(normalized["kind"], "experiment_plan");
+    assert_eq!(normalized["runs"][0]["index"], 0);
+    assert!(normalized["dataset_manifest_sha256"].is_string());
+    let entries: Vec<Value> = fs::read_to_string(main.join("index.jsonl"))
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect();
+    assert_eq!(entries.len(), 1);
+    assert_eq!(entries[0]["status"], "completed");
+    assert_eq!(entries[0]["repetition"], 2);
+    assert_eq!(entries[0]["summary"]["success"], true);
+    let summary: Value =
+        serde_json::from_slice(&fs::read(main.join("run-summary.json")).unwrap()).unwrap();
+    assert_eq!(summary["runs"], 1);
+    assert_eq!(summary["remaining"], 0);
+    assert_eq!(summary["success"], 1);
+    assert!(main.join("run-state.jsonl").exists());
+
+    let output = binary()
+        .args([
+            "run-plan",
+            root.join("dataset").to_str().unwrap(),
+            plan.to_str().unwrap(),
+            main.to_str().unwrap(),
+            root.join("config.json").to_str().unwrap(),
+            root.join("connector.json").to_str().unwrap(),
+        ])
+        .env("LUNA_ACCESS_TOKEN", "test-token")
+        .env("LUNA_ACCOUNT_ID", "test-account")
+        .env("LUNA_BASE_URL", "http://127.0.0.1:9")
+        .output()
+        .unwrap();
+    assert!(!output.status.success(), "plan root must not be reused");
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
 fn quota_stops_pilot_without_scoring_and_resumes_on_a_new_attempt() {
     let root = setup();
     let pilot = root.join("pilot");

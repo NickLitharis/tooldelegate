@@ -1,0 +1,29 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "INVALID_NUMBER",
+  "family": "aggregation",
+  "generator_version": "suite-v3",
+  "id": "aggregation-v3-s0",
+  "input_bytes": 154,
+  "input_hashes": {
+    "input.csv": "90c700513bfe3de8ac920ad9c56e5d1410de72a70bdd2d9b5f1e99b3bb999aba"
+  },
+  "invariants": [
+    "semantic JSON equality",
+    "null semantics respected",
+    "filter precedes aggregation",
+    "input unchanged",
+    "no extra keys"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "requirement": "Read input.csv using CSV-aware parsing; empty value means null. Values are base-10 integers; active is the literal true or false. Among rows with active true and group not C, count distinct non-null value integers and count null value rows. Output {\"distinct\": INTEGER, \"null_count\": INTEGER}. Write only the specified JSON structure to output.json. Do not change input.csv. JSON key order and whitespace do not matter. Integer results are exact; means have absolute tolerance 0.000000001. Include all groups present after filtering. This instance contains invalid input. Validate all target data before making changes. On invalid input leave the entire input tree unchanged, create no output.csv or output.json, and write only result.json containing {\"error\":\"INVALID_NUMBER\"}.",
+  "seed": 2026,
+  "size_parameter": 10,
+  "size_unit": "rows",
+  "variant": 3
+}

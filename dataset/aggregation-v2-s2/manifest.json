@@ -1,0 +1,29 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "success",
+  "family": "aggregation",
+  "generator_version": "suite-v3",
+  "id": "aggregation-v2-s2",
+  "input_bytes": 6985,
+  "input_hashes": {
+    "input.csv": "f6feefbfc4c0a3d5060f64a632df160b30c060f04e4f605946847850fff8b58d"
+  },
+  "invariants": [
+    "semantic JSON equality",
+    "null semantics respected",
+    "filter precedes aggregation",
+    "input unchanged",
+    "no extra keys"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "requirement": "Read input.csv using CSV-aware parsing; empty value means null. Values are base-10 integers; active is the literal true or false. Filter to active true before grouping by group. Compute sum and arithmetic mean of non-null value per group. Output {\"groups\": {GROUP: {\"sum\": INTEGER, \"average\": NUMBER_OR_NULL}}}. Use null for the average when no non-null values exist. Write only the specified JSON structure to output.json. Do not change input.csv. JSON key order and whitespace do not matter. Integer results are exact; means have absolute tolerance 0.000000001. Include all groups present after filtering.",
+  "seed": 2026,
+  "size_parameter": 500,
+  "size_unit": "rows",
+  "variant": 2
+}

@@ -1,0 +1,36 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "success",
+  "family": "text",
+  "generator_version": "suite-v3",
+  "id": "text-v3-s1",
+  "input_bytes": 17623,
+  "input_hashes": {
+    "outside/": "directory",
+    "outside/untouched.txt": "0fa085ba45ebc183f6a9140cef51b1e9164ad01e72b858898440457cfc74fbcd",
+    "scope/": "directory",
+    "scope/a.txt": "c85a837d83fddbdf0d83263a840dfbf5d798c657b384ecccfba6dd952f2d6878",
+    "scope/b.txt": "6b9df471d521a33e7d8a7b84854fffa7d64956941c16185b4f4ec93a78a585e4",
+    "scope/ignored.bin": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+    "scope/nested/": "directory",
+    "scope/nested/c.txt": "f0f9b4ef13109a4cfa796cea8a20669a5b28aa2208da4e6dc75c3dcff7a7de05"
+  },
+  "invariants": [
+    "all and only required matches replaced",
+    "replacement counts correct",
+    "unrelated bytes preserved",
+    "outside scope identical",
+    "line endings preserved"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "requirement": "In every .txt file recursively under scope/ only, replace case-sensitive whole-word red with blue. Word characters are Unicode alphanumeric characters or underscore. Never change files under outside/. Edit files in place. Preserve every unrelated byte, UTF-8 encoding and each existing line ending. Create no files.",
+  "seed": 2026,
+  "size_parameter": 200,
+  "size_unit": "repeated_content_blocks",
+  "variant": 3
+}

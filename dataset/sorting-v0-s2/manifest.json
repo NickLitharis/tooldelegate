@@ -1,0 +1,30 @@
+{
+  "complexity": "simple",
+  "expected_outcome": "success",
+  "family": "sorting",
+  "generator_version": "suite-v3",
+  "id": "sorting-v0-s2",
+  "input_bytes": 24365,
+  "input_hashes": {
+    "input.csv": "6980e0c1c7c68f73bad20cd2573c87e1d9328e1b370011b9b5f95a601f762fb1"
+  },
+  "invariants": [
+    "ascending ordering under specified policy",
+    "row multiset preserved",
+    "header and schema preserved",
+    "stable equal keys",
+    "input unchanged"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "policy": "Sort value as signed base-10 integer ascending, empty values last; stable ties.",
+  "requirement": "Read input.csv using CSV-aware parsing. Sort value as signed base-10 integer ascending, empty values last; stable ties. Write output.csv with the same header and exact field values, preserving every row. Do not change input.csv.",
+  "seed": 2026,
+  "size_parameter": 500,
+  "size_unit": "rows",
+  "variant": 0
+}

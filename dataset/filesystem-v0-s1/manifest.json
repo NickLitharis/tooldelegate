@@ -1,0 +1,31 @@
+{
+  "complexity": "simple",
+  "expected_outcome": "success",
+  "family": "filesystem",
+  "generator_version": "suite-v3",
+  "id": "filesystem-v0-s1",
+  "input_bytes": 3418,
+  "input_hashes": {
+    "work/": "directory",
+    "work/source file [α].txt": "03ab06ab782bbbfa05b1e0be34c17a0bcd51caa46a0be884cdfb27ab48682a6e",
+    "work/unchanged.txt": "643ee380c081c34973d8ed24373586fbba4b5864eb8854f121bbe4863df36a19"
+  },
+  "invariants": [
+    "correct final paths",
+    "content preserved",
+    "source removed only on successful move",
+    "no overwrites",
+    "no unauthorized tree changes"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "requirement": "Rename work/source file [α].txt to work/renamed file [α].txt without overwriting any file. Preserve all unaffected paths, directories and file bytes. No changes outside work/ are permitted.",
+  "seed": 2026,
+  "size_parameter": 200,
+  "size_unit": "repeated_content_blocks",
+  "variant": 0
+}

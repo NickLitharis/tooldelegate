@@ -158,8 +158,8 @@ pub fn run(
         .write(true)
         .open(root.join("trace.jsonl"))?;
     let synthetic = adapter.synthetic();
-    let schema = model_adapter::schema(arm == Arm::A, config.feedback_bytes.saturating_sub(96) / 4);
-    let mut instruction = "Complete the task using only the supplied action interface. Read original inputs with read (byte offsets); returned data are JSON byte arrays. Artifacts live outside context. Submit each complete attempt; at most max_retries additional submissions are allowed. Tool arms submit a complete ordered command batch; verification happens after that batch. Finish only after your final submission. No hidden oracle feedback is available. Resource limits and truncation are failures, not completion. Every response must be exactly one action JSON object.".to_owned();
+    let schema = model_adapter::schema(arm == Arm::A, read_limit(config.feedback_bytes));
+    let mut instruction = "Complete the task using only the supplied action interface. Read original inputs with read (byte offsets); results return UTF-8 text, or base64 bytes when the requested range is not valid UTF-8. Artifacts live outside context. Submit each complete attempt; at most max_retries additional submissions are allowed. Tool arms submit a complete ordered command batch; verification happens after that batch. Finish only after your final submission. No hidden oracle feedback is available. Resource limits and truncation are failures, not completion. Every response must be exactly one action JSON object.".to_owned();
     if arm == Arm::A {
         instruction.push_str(" Arm A has no command execution. Write the complete artifact into the work tree with put (append later chunks with append=true); submit only acknowledges delivery and creates no files. Finish only after the artifact is written and submitted.");
     }
@@ -350,6 +350,35 @@ pub fn run(
     Ok(summary)
 }
 
+/// Maximum bytes a single read may return while the encoded response fits the
+/// feedback budget. UTF-8 text expands once; base64 bytes expand by 4/3.
+pub fn read_limit(feedback_bytes: usize) -> usize {
+    feedback_bytes.saturating_sub(96) * 3 / 4
+}
+
+fn base64(data: &[u8]) -> String {
+    const ALPHABET: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    let mut out = String::with_capacity(data.len().div_ceil(3) * 4);
+    for chunk in data.chunks(3) {
+        let first = chunk[0];
+        let second = chunk.get(1).copied();
+        let third = chunk.get(2).copied();
+        out.push(ALPHABET[(first >> 2) as usize] as char);
+        out.push(ALPHABET[(((first & 0b11) << 4) | (second.unwrap_or(0) >> 4)) as usize] as char);
+        out.push(match second {
+            Some(second) => {
+                ALPHABET[(((second & 0b1111) << 2) | (third.unwrap_or(0) >> 6)) as usize] as char
+            }
+            None => '=',
+        });
+        out.push(match third {
+            Some(third) => ALPHABET[(third & 0b111111) as usize] as char,
+            None => '=',
+        });
+    }
+    out
+}
+
 #[allow(clippy::too_many_arguments)]
 fn apply(
     action: Action,
@@ -370,7 +399,7 @@ fn apply(
             offset,
             bytes,
         } => {
-            if bytes == 0 || bytes > config.feedback_bytes.saturating_sub(96) / 4 {
+            if bytes == 0 || bytes > read_limit(config.feedback_bytes) {
                 return Err("read exceeds byte budget".into());
             }
             let mut file = fs::File::open(safe(&task.join("input"), &path)?)?;
@@ -381,7 +410,19 @@ fn apply(
             let mut data = vec![0; bytes];
             let length = file.read(&mut data)?;
             data.truncate(length);
-            Ok(json!({"data":data,"offset":offset,"eof":offset as u64+length as u64>=file.metadata()?.len()}).to_string())
+            let eof = offset as u64 + length as u64 >= file.metadata()?.len();
+            // JSON byte arrays expand context roughly fourfold. Return UTF-8 text when
+            // possible and base64 bytes otherwise, so direct generation is not taxed by
+            // a representation unrelated to the transformation.
+            match std::str::from_utf8(&data) {
+                Ok(text) => Ok(
+                    json!({"encoding":"utf-8","data":text,"offset":offset,"eof":eof}).to_string(),
+                ),
+                Err(_) => Ok(
+                    json!({"encoding":"base64","data":base64(&data),"offset":offset,"eof":eof})
+                        .to_string(),
+                ),
+            }
         }
         Action::Put {
             path,
@@ -502,5 +543,30 @@ fn apply(
             })
         }
         _ => Err("action unavailable in this arm".into()),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{base64, read_limit};
+
+    #[test]
+    fn read_budget_leaves_room_for_base64_expansion() {
+        assert_eq!(read_limit(65536), 49080);
+        assert_eq!(read_limit(196), 75);
+        let bytes = vec![0xff; read_limit(65536)];
+        assert!(base64(&bytes).len() <= 65536 - 96 + 4);
+    }
+
+    #[test]
+    fn base64_matches_standard_vectors() {
+        assert_eq!(base64(b""), "");
+        assert_eq!(base64(b"f"), "Zg==");
+        assert_eq!(base64(b"fo"), "Zm8=");
+        assert_eq!(base64(b"foo"), "Zm9v");
+        assert_eq!(base64(b"foob"), "Zm9vYg==");
+        assert_eq!(base64(b"fooba"), "Zm9vYmE=");
+        assert_eq!(base64(b"foobar"), "Zm9vYmFy");
+        assert_eq!(base64(&[0xff, 0xfe, 0xfd]), "//79");
     }
 }

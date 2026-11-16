@@ -160,7 +160,7 @@ pub fn generate(destination: &Path, seed: u64) -> Result<()> {
     let mut tasks = Vec::new();
     for family in ["sorting", "filesystem", "text", "aggregation"] {
         for variant in 0..4 {
-            for (size_index, size) in [10, 1_000, 100_000].into_iter().enumerate() {
+            for (size_index, size) in [10, 200, 500].into_iter().enumerate() {
                 let id = format!("{family}-v{variant}-s{size_index}");
                 let task = destination.join(&id);
                 let input = task.join("input");
@@ -214,7 +214,7 @@ pub fn generate(destination: &Path, seed: u64) -> Result<()> {
                     "sorting" | "aggregation" => "rows",
                     _ => "repeated_content_blocks",
                 });
-                manifest["generator_version"] = json!("suite-v2");
+                manifest["generator_version"] = json!("suite-v3");
                 manifest["input_hashes"] = json!(snapshot(&input)?);
                 manifest["input_bytes"] = json!(input_bytes(&input)?);
                 manifest["limits"] = json!({"status":"dataset_defaults_not_protocol_frozen", "wall_seconds":60, "memory_bytes":536870912, "artifact_bytes":134217728});
@@ -229,7 +229,7 @@ pub fn generate(destination: &Path, seed: u64) -> Result<()> {
     fs::write(
         destination.join("dataset.json"),
         serde_json::to_vec_pretty(
-            &json!({"version":"suite-v2", "status":"draft", "seed":seed, "tasks":tasks}),
+            &json!({"version":"suite-v3", "status":"draft", "seed":seed, "tasks":tasks}),
         )?,
     )?;
     Ok(())

@@ -1,0 +1,29 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "success",
+  "family": "aggregation",
+  "generator_version": "suite-v3",
+  "id": "aggregation-v3-s1",
+  "input_bytes": 2741,
+  "input_hashes": {
+    "input.csv": "0318286a48c4c04f101071c08265a114f17bd4ba055e952f709eecedf8a4aa4d"
+  },
+  "invariants": [
+    "semantic JSON equality",
+    "null semantics respected",
+    "filter precedes aggregation",
+    "input unchanged",
+    "no extra keys"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "requirement": "Read input.csv using CSV-aware parsing; empty value means null. Values are base-10 integers; active is the literal true or false. Among rows with active true and group not C, count distinct non-null value integers and count null value rows. Output {\"distinct\": INTEGER, \"null_count\": INTEGER}. Write only the specified JSON structure to output.json. Do not change input.csv. JSON key order and whitespace do not matter. Integer results are exact; means have absolute tolerance 0.000000001. Include all groups present after filtering.",
+  "seed": 2026,
+  "size_parameter": 200,
+  "size_unit": "rows",
+  "variant": 3
+}

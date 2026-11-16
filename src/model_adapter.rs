@@ -193,7 +193,7 @@ pub fn schema(direct: bool, read_bytes: usize) -> Value {
     let rule = "Return exactly one JSON object per turn with a type field at its top level. Do not wrap the action in another object or an array. Do not return prose, multiple objects, or any field not listed here.";
     let read_limit = read_bytes.max(1);
     let read_note = format!(
-        "read returns the requested byte range as a JSON byte array; bytes must be at least 1 and at most {read_limit} per call, and offset pages through a larger file"
+        "read returns the requested byte range as UTF-8 text, or as base64 bytes when that range is not valid UTF-8; bytes must be at least 1 and at most {read_limit} per call, and offset pages through a larger file"
     );
     if direct {
         json!({

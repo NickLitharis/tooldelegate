@@ -75,6 +75,15 @@ fn main() -> Result<(), Box<dyn Error>> {
             Path::new(&args[5]),
         );
     }
+    if args.len() == 7 && args[1] == "run-plan" {
+        return pilot::run_plan(
+            Path::new(&args[2]),
+            Path::new(&args[3]),
+            Path::new(&args[4]),
+            Path::new(&args[5]),
+            Path::new(&args[6]),
+        );
+    }
     if args.len() == 5 && args[1] == "analyze" {
         return report::generate(
             Path::new(&args[2]),
@@ -260,8 +269,18 @@ mod tests {
             serde_json::from_str(include_str!("../configs/experiment.json")).unwrap();
         let model: serde_json::Value =
             serde_json::from_str(include_str!("../configs/models.json")).unwrap();
-        assert_eq!(experiment["status"], "draft");
+        assert_eq!(experiment["status"], "frozen");
         assert_eq!(experiment["arms"], serde_json::json!(["A", "B", "C", "D"]));
+        assert_eq!(experiment["dataset_version"], "suite-v3");
+        assert_eq!(experiment["retry_budget"], 1);
+        assert_eq!(experiment["main"]["randomization_seed"], 42);
+        assert_eq!(experiment["limits"]["read_limit_bytes"], 49080);
+        assert!(
+            experiment["moderation_policy"]
+                .as_str()
+                .unwrap()
+                .contains("terminal failures")
+        );
         assert_eq!(experiment["main"]["tasks"], 48);
         assert_eq!(experiment["main"]["repetitions_per_arm"], 3);
         assert_eq!(model["model_version"], "gpt-6-luna");

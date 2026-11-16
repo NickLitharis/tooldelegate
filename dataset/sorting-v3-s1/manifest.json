@@ -1,0 +1,30 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "success",
+  "family": "sorting",
+  "generator_version": "suite-v3",
+  "id": "sorting-v3-s1",
+  "input_bytes": 13232,
+  "input_hashes": {
+    "input.csv": "64d7678438d35a52c2be0aa04513295c8d773725dbbf6deb630de7a9a28e2ad9"
+  },
+  "invariants": [
+    "ascending ordering under specified policy",
+    "row multiset preserved",
+    "header and schema preserved",
+    "stable equal keys",
+    "input unchanged"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "policy": "Sort value by UTC instant ascending. Accept RFC3339 timestamps with explicit offset and YYYY/MM/DD HH:MM:SS interpreted as UTC. Empty values last; stable ties. Preserve original timestamp spelling.",
+  "requirement": "Read input.csv using CSV-aware parsing. Sort value by UTC instant ascending. Accept RFC3339 timestamps with explicit offset and YYYY/MM/DD HH:MM:SS interpreted as UTC. Empty values last; stable ties. Preserve original timestamp spelling. Write output.csv with the same header and exact field values, preserving every row. Do not change input.csv.",
+  "seed": 2026,
+  "size_parameter": 200,
+  "size_unit": "rows",
+  "variant": 3
+}

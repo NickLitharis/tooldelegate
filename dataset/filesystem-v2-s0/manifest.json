@@ -1,0 +1,37 @@
+{
+  "complexity": "multi-step",
+  "expected_outcome": "success",
+  "family": "filesystem",
+  "generator_version": "suite-v3",
+  "id": "filesystem-v2-s0",
+  "input_bytes": 1073,
+  "input_hashes": {
+    "work/": "directory",
+    "work/batch/": "directory",
+    "work/batch/old-0.txt": "67eeba093746b530c855a3215cb0442fa6a66015e1348566a1816bb3a3a9adc8",
+    "work/batch/old-1.txt": "eb50d98d433d210aedb315008a028b6c36f558c67d7e2105f0707b476bddd43d",
+    "work/batch/old-2.txt": "757b43b0e13331fc28dfef415ed4471192d9b294761ce36777e204c60462db14",
+    "work/batch/old-3.txt": "ac34470e87b19e5662e8dd71e77cf1f7ae29260a2f72f53e19e173889089a390",
+    "work/batch/old-4.txt": "8c7963ca1a09681b3ec5f588546d9a23945fe0d8c73984620552a2678b282540",
+    "work/source file [α].txt": "2fbc9dab844f636553e2b58d877211f3ff813c4e7c7268649d3a317d053cd9d1",
+    "work/unchanged.txt": "643ee380c081c34973d8ed24373586fbba4b5864eb8854f121bbe4863df36a19"
+  },
+  "invariants": [
+    "correct final paths",
+    "content preserved",
+    "source removed only on successful move",
+    "no overwrites",
+    "no unauthorized tree changes"
+  ],
+  "limits": {
+    "artifact_bytes": 134217728,
+    "memory_bytes": 536870912,
+    "status": "dataset_defaults_not_protocol_frozen",
+    "wall_seconds": 60
+  },
+  "requirement": "In work/batch only, rename the five files old-0.txt through old-4.txt to new-0.txt through new-4.txt, replacing the leading old- with new-. Do not overwrite destinations. Leave work/source file [α].txt unchanged. Preserve all unaffected paths, directories and file bytes. No changes outside work/ are permitted.",
+  "seed": 2026,
+  "size_parameter": 10,
+  "size_unit": "repeated_content_blocks",
+  "variant": 2
+}
