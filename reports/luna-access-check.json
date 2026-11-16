@@ -1,0 +1,32 @@
+{
+  "kind": "access_smoke_test",
+  "date": "2026-11-17",
+  "synthetic": false,
+  "benchmark_run": false,
+  "endpoint": "/api/experimental/generate/text",
+  "provider_auth_method_observed": "oauth",
+  "observed_opencode_requests": 2,
+  "duplicate_probe": true,
+  "duplicate_note": "The second small probe was an accidental repeat during server-restart recovery. Both requests are preserved here. No pilot runs were started.",
+  "requests": [
+    {
+      "body": {
+        "model": {"providerID": "openai", "id": "gpt-6-luna", "variant": "none"},
+        "prompt": "Connection verification only. Do not use tools. Reply with exactly LUNA_OK and no other text."
+      },
+      "response": {"data": {"text": "LUNA_OK"}}
+    },
+    {
+      "body": {
+        "model": {"providerID": "openai", "id": "gpt-6-luna", "variant": "none"},
+        "prompt": "Reply with exactly LUNA_OK and nothing else. Do not use tools."
+      },
+      "response": {"data": {"text": "LUNA_OK"}}
+    }
+  ],
+  "usage": null,
+  "resolved_model_version": null,
+  "effective_decoding": null,
+  "provider_request_count": null,
+  "verification_scope": "Access to the requested Luna route through the connected OpenAI OAuth account only. The returned data contain text, but no token usage, resolved version, effective decoding parameters or backend retry count. Account subscription tier was not independently inspected. This is not benchmark data."
+}

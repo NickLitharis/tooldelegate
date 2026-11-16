@@ -1,0 +1,4 @@
+{
+  "program": "/home/marocos/orca/projects/unix-ai/target/debug/verified-cli-benchmark",
+  "args": ["luna-connector"]
+}

@@ -1,0 +1,17 @@
+{
+  "provider": "openai",
+  "requested_model": "gpt-6-luna",
+  "catalog_id": "openai/gpt-6-luna",
+  "access_method": "chatgpt_plus_subscription",
+  "status": "access_and_accounting_verified",
+  "model_version": "gpt-6-luna",
+  "decoding": {"max_output_tokens": 8192, "reasoning_effort": "none"},
+  "endpoint": "https://chatgpt.com/backend-api/codex/responses",
+  "limitations": [
+    "Provider-applied decoding defaults (temperature 1.0, top_p 0.98) are not controllable and not recorded per call.",
+    "temperature is rejected by this endpoint for this model.",
+    "The ChatGPT Plus rolling quota is shared with interactive OpenCode use."
+  ],
+  "pricing": null,
+  "evidence": "reports/luna-connector-probe.json"
+}

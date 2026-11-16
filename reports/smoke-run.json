@@ -1,0 +1,65 @@
+{
+  "kind": "connector_smoke_test",
+  "date": "2026-11-16",
+  "synthetic": false,
+  "benchmark_run": false,
+  "pilot_run": false,
+  "note": "Exploratory interface smoke test on one benchmark task. It is not part of the pilot matrix and must not be pooled with pilot results.",
+  "task_id": "sorting-v0-s0",
+  "arm": "D",
+  "model": "gpt-6-luna",
+  "config": "configs/run.luna.json",
+  "connector": "configs/connector.luna.json",
+  "attempts": [
+    {
+      "run_dir": "reports/smoke-run-D",
+      "result": "call_limit",
+      "calls": 64,
+      "input_tokens": 101852,
+      "output_tokens": 1594,
+      "total_tokens": 103446,
+      "context_peak": 2941,
+      "defect": "The connector did not forward the harness action schema, so the model guessed an unsupported format ({action, length}) and repeated it until the call limit."
+    },
+    {
+      "run_dir": "reports/smoke-run-D2",
+      "result": "call_limit",
+      "calls": 64,
+      "input_tokens": 133415,
+      "output_tokens": 1772,
+      "total_tokens": 135187,
+      "context_peak": 3219,
+      "defect": "After schema forwarding, the schema itself was ambiguous: a top-level actions array, nested fields objects and an allowlist field inside submit. The model copied those shapes literally and was rejected."
+    },
+    {
+      "run_dir": "reports/smoke-run-D3",
+      "result": "finished",
+      "calls": 5,
+      "attempts": 1,
+      "input_tokens": 3403,
+      "output_tokens": 530,
+      "total_tokens": 3933,
+      "context_peak": 948,
+      "cached_input_tokens": 0,
+      "oracle_pass": true,
+      "success": true,
+      "verification_code": "PASS",
+      "verifier_false_positive": false,
+      "verifier_false_negative": false,
+      "input_hash": "0189aa045769358ee1a2dd6f86dcdd08d49bac2c2f30ab9a821e82c69d5899b7",
+      "output_hash": "1b5a4d08f51096f3d0576be6a8de6c04e15984487de92f09257e216c9e853843",
+      "note": "The model concatenated two actions on calls 0 and 1 and recovered after the rejection included the parser error. It then read, submitted one command batch, received the PASS certificate, and finished."
+    }
+  ],
+  "defects_found_and_fixed": [
+    "luna-connector now appends the harness action schema to the provider instructions of every call, so all arms see their permitted actions.",
+    "The action schema no longer has a top-level actions wrapper, no nested fields objects, and no allowlist field inside submit; it contains a flat allowed_actions catalog and flat parseable examples.",
+    "Malformed-action feedback now includes the bounded parser error, allowing recovery instead of blind repetition."
+  ],
+  "controls_affected": "The schema and malformed-feedback changes apply identically to all four arms. They change the interface text, so any earlier interface-failure data is not comparable and was not used.",
+  "not_measured": [
+    "Per-message feedback and verification token attribution remains null.",
+    "Monetary cost remains null; pricing is deferred.",
+    "The three smoke attempts consumed ChatGPT Plus quota and are not a statistical sample."
+  ]
+}

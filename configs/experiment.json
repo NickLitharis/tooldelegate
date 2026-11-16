@@ -1,0 +1,11 @@
+{
+  "status": "draft",
+  "arms": ["A", "B", "C", "D"],
+  "dataset_seed": 2026,
+  "pilot": {"tasks": 2, "repetitions_per_arm": 5},
+  "main": {"tasks": 48, "repetitions_per_arm": 3},
+  "success_non_inferiority_margin_percentage_points": 5,
+  "retry_budget": null,
+  "randomization_seed": null,
+  "limits": null
+}

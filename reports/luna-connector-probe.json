@@ -1,0 +1,172 @@
+{
+  "kind": "connector_live_accounting_probe",
+  "date": "2026-11-16",
+  "synthetic": false,
+  "benchmark_run": false,
+  "endpoint": "https://chatgpt.com/backend-api/codex/responses",
+  "credential_source": "OpenCode credential broker, active OpenAI OAuth (ChatGPT Plus)",
+  "harness_request": {
+    "model": "gpt-6-luna",
+    "decoding": {"max_output_tokens": 64, "reasoning_effort": "none"},
+    "arm": "A",
+    "schema": {},
+    "messages": [
+      {"role": "system", "content": "Reply with exactly PROBE_OK and nothing else."},
+      {"role": "user", "content": "Connector verification probe. Not benchmark data."}
+    ],
+    "limits": {},
+    "remaining_wall_seconds": 120,
+    "synthetic": false
+  },
+  "reply": {
+    "model": "gpt-6-luna",
+    "decoding": {"max_output_tokens": 64, "reasoning_effort": "none"},
+    "action": "PROBE_OK",
+    "usage": {
+      "input_tokens": 28,
+      "output_tokens": 7,
+      "cached_input_tokens": 0,
+      "schema_tokens": null,
+      "feedback_input_tokens": null,
+      "verification_input_tokens": null,
+      "source": "api_reported"
+    },
+    "finish_reason": "stop",
+    "provider_response": {
+      "access_programs": null,
+      "background": false,
+      "completed_at": 1794868741,
+      "created_at": 1794868741,
+      "error": null,
+      "frequency_penalty": 0.0,
+      "id": "resp_0db130968ac231c7016afb8604f70887d2811eb97cf86fff89",
+      "image": {"context_compression": "disabled"},
+      "incomplete_details": null,
+      "input_transformations": [],
+      "instructions": "Reply with exactly PROBE_OK and nothing else.",
+      "max_output_tokens": 64,
+      "max_tool_calls": null,
+      "metadata": {},
+      "model": "gpt-6-luna",
+      "moderation": null,
+      "object": "response",
+      "output": [
+        {
+          "content": [
+            {"annotations": [], "logprobs": [], "text": "PROBE_OK", "type": "output_text"}
+          ],
+          "id": "msg_0db130968ac231c7016afb860567d087d28c823fefd719e03c",
+          "phase": "final_answer",
+          "role": "assistant",
+          "status": "completed",
+          "type": "message"
+        }
+      ],
+      "parallel_tool_calls": false,
+      "presence_penalty": 0.0,
+      "previous_response_id": null,
+      "prompt_cache_key": "a68a9dbb-6168-4a1f-8f1b-f63c90201f80",
+      "prompt_cache_retention": "24h",
+      "reasoning": {"context": "all_turns", "effort": "none", "mode": "standard", "summary": "detailed"},
+      "safety_identifier": "user-U4RBdZMTT3mYMN7PZxNZ7iay",
+      "service_tier": "default",
+      "status": "completed",
+      "store": false,
+      "temperature": 1.0,
+      "text": {"format": {"type": "text"}, "verbosity": "medium"},
+      "tool_choice": "auto",
+      "tool_usage": {
+        "image_gen": {
+          "input_tokens": 0,
+          "input_tokens_details": {"image_tokens": 0, "text_tokens": 0},
+          "output_tokens": 0,
+          "output_tokens_details": {"image_tokens": 0, "text_tokens": 0},
+          "total_tokens": 0
+        },
+        "web_search": {"num_requests": 0}
+      },
+      "tools": [],
+      "top_logprobs": 0,
+      "top_p": 0.98,
+      "truncation": "disabled",
+      "usage": {
+        "attribution": {
+          "items": {
+            "msg_0db130968ac231c7016afb8604f88087d2a388fea8ef8d2492": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0,
+              "content": [{"cache_write_tokens": 0, "cached_tokens": 0, "input_tokens": 12, "output_tokens": 0}],
+              "input_tokens": 12,
+              "output_tokens": 0
+            },
+            "msg_0db130968ac231c7016afb860567d087d28c823fefd719e03c": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0,
+              "content": [{"cache_write_tokens": 0, "cached_tokens": 0, "input_tokens": 2, "output_tokens": 7}],
+              "input_tokens": 2,
+              "output_tokens": 7
+            }
+          },
+          "request_fields": {
+            "instructions": {"cache_write_tokens": 0, "cached_tokens": 0, "input_tokens": 14, "output_tokens": 0}
+          }
+        },
+        "input_tokens": 28,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cache_write_tokens_details": {"ttl_12h_tokens": 0, "ttl_30m_tokens": 0},
+          "cached_tokens": 0
+        },
+        "output_tokens": 7,
+        "output_tokens_details": {"reasoning_tokens": 0},
+        "total_tokens": 35
+      },
+      "user": null
+    },
+    "provider_request": {
+      "include": ["reasoning.encrypted_content"],
+      "input": [
+        {
+          "content": [
+            {"text": "Connector verification probe. Not benchmark data.", "type": "input_text"}
+          ],
+          "role": "user",
+          "type": "message"
+        }
+      ],
+      "instructions": "Reply with exactly PROBE_OK and nothing else.",
+      "max_output_tokens": 64,
+      "model": "gpt-6-luna",
+      "parallel_tool_calls": false,
+      "reasoning": {"effort": "none", "summary": "auto"},
+      "store": false,
+      "stream": true,
+      "tool_choice": "auto",
+      "tools": []
+    }
+  },
+  "resolved_model": "gpt-6-luna",
+  "pinned_model_matches": true,
+  "usage_source": "api_reported",
+  "effective_decoding_observed": {
+    "temperature": 1.0,
+    "top_p": 0.98,
+    "reasoning_effort": "none",
+    "tool_choice": "auto",
+    "store": false,
+    "note": "Provider-applied defaults differ from any user-supplied values. Decoding equality in run records means the requested object was forwarded unchanged, not that these defaults were controlled."
+  },
+  "rejected_request": {
+    "decoding": {"temperature": 0, "max_output_tokens": 64, "reasoning_effort": "none"},
+    "provider_http_body": {"detail": "Unsupported parameter: temperature"},
+    "note": "The endpoint rejects temperature for this model even though the OpenCode catalog advertises temperature support. The pinned decoding therefore omits it."
+  },
+  "notes": [
+    "One successful Luna call through the benchmark connector and one call rejected for an unsupported decoding parameter. Both are recorded; neither is benchmark data.",
+    "Provider-reported usage is present and used directly; no tokenizer estimate was involved.",
+    "The provider also returns usage.attribution with per-item and instructions token counts. This may allow validated per-message feedback attribution later; the connector does not use it yet, so attribution fields stay null.",
+    "Provider-side tools were empty, store was false and no conversation state was reused.",
+    "The probe consumed quota from the same ChatGPT Plus rolling limit that the benchmark will use.",
+    "Attribution fields (schema, feedback, verification tokens) remain null; only total API usage is verified."
+  ]
+}
