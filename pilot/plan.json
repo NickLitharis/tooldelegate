@@ -1,0 +1,254 @@
+{
+  "algorithm": "splitmix64-fisher-yates-v1",
+  "dataset_manifest_sha256": "0703a8a6f56795082e10ef1c2bd0c7cce54063d8518baf94a6d101c513b90dc8",
+  "dataset_seed": 2026,
+  "kind": "pilot_plan",
+  "randomization_seed": 42,
+  "repetitions": 5,
+  "runs": [
+    {
+      "arm": "B",
+      "index": 0,
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 1,
+      "repetition": 4,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 2,
+      "repetition": 3,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 3,
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 4,
+      "repetition": 4,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "index": 5,
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "index": 6,
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 7,
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 8,
+      "repetition": 4,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 9,
+      "repetition": 4,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "index": 10,
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 11,
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "index": 12,
+      "repetition": 4,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "index": 13,
+      "repetition": 4,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 14,
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 15,
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 16,
+      "repetition": 3,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "index": 17,
+      "repetition": 3,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 18,
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 19,
+      "repetition": 3,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 20,
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 21,
+      "repetition": 3,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 22,
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 23,
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 24,
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "index": 25,
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 26,
+      "repetition": 4,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 27,
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 28,
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 29,
+      "repetition": 4,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 30,
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 31,
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "index": 32,
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 33,
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 34,
+      "repetition": 3,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "index": 35,
+      "repetition": 3,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 36,
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "index": 37,
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "index": 38,
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "index": 39,
+      "repetition": 3,
+      "task_id": "sorting-v0-s0"
+    }
+  ],
+  "tasks": [
+    "sorting-v0-s0",
+    "sorting-v0-s1"
+  ]
+}

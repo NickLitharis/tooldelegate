@@ -26,7 +26,7 @@ const MAX_REQUEST_BYTES: usize = 32 * 1024 * 1024;
 const MAX_RESPONSE_BYTES: usize = 8 * 1024 * 1024;
 const MAX_STDERR_BYTES: usize = 64 * 1024;
 const MAX_PAYLOAD_BYTES: usize = 1024 * 1024;
-const DEFAULT_TIMEOUT_SECONDS: f64 = 120.0;
+const DEFAULT_TIMEOUT_SECONDS: f64 = 85.0;
 const DEFAULT_BASE_URL: &str = "https://chatgpt.com/backend-api/codex";
 
 fn err(message: impl Into<String>) -> Box<dyn Error> {
@@ -70,7 +70,10 @@ fn exchange() -> Result<Reply, Box<dyn Error>> {
         .as_f64()
         .filter(|seconds| *seconds > 0.0)
         .ok_or_else(|| err("remaining_wall_seconds missing"))?;
-    let timeout = remaining.clamp(1.0, DEFAULT_TIMEOUT_SECONDS);
+    // The harness kills the connector at the smaller of 90 seconds and the remaining
+    // wall budget. Finish earlier so a timeout is reported as JSON instead of an
+    // unexplained empty stdout.
+    let timeout = (remaining - 5.0).clamp(1.0, DEFAULT_TIMEOUT_SECONDS);
 
     let (instructions, input) = map_messages(&request["messages"])?;
     let schema = request

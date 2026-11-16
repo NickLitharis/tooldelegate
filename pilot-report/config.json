@@ -1,0 +1,10 @@
+{
+  "bootstrap_seed": 2026,
+  "bootstrap_samples": 2000,
+  "minimum_clusters": 2,
+  "expected_tasks": 2,
+  "expected_repetitions": 5,
+  "non_inferiority_margin": 0.05,
+  "margin_justification": "Draft margin: at most one additional failure per 20 runs in a non-safety-critical workflow. This pilot does not test it; the main protocol must justify and freeze it.",
+  "allow_synthetic": false
+}

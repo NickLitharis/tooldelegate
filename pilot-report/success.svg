@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>Task success by arm</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Task success by arm</text><text x="16" y="46">Completed hidden-oracle passes (%)</text>
+<rect x="92" y="270" width="70" height="0" fill="#237891"/><text x="127" y="260" text-anchor="middle">0</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<rect x="227" y="102" width="70" height="168" fill="#237891"/><text x="262" y="92" text-anchor="middle">80</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<rect x="362" y="81" width="70" height="189" fill="#237891"/><text x="397" y="71" text-anchor="middle">90</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<rect x="497" y="123" width="70" height="147" fill="#237891"/><text x="532" y="113" text-anchor="middle">70</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg>

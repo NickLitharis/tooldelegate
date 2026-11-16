@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 960"><title>Verification overhead: distinct units, not interchangeable costs</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><svg x="0" y="0" width="640" height="320" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>Verification feedback in context</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Verification feedback in context</text><text x="16" y="46">Mean attributed input tokens / run</text>
+<text x="127" y="250" text-anchor="middle">unknown</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<text x="262" y="250" text-anchor="middle">unknown</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<text x="397" y="250" text-anchor="middle">unknown</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<text x="532" y="250" text-anchor="middle">unknown</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg><svg x="0" y="320" width="640" height="320" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>Verification CPU</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Verification CPU</text><text x="16" y="46">Mean measured CPU seconds / run</text>
+<rect x="92" y="270" width="70" height="0" fill="#237891"/><text x="127" y="260" text-anchor="middle">0</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<rect x="227" y="270" width="70" height="0" fill="#237891"/><text x="262" y="260" text-anchor="middle">0</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<rect x="362" y="268.999913409" width="70" height="1.000086591" fill="#237891"/><text x="397" y="258.999913409" text-anchor="middle">0.0048</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<rect x="497" y="268.963950447" width="70" height="1.0360495530000002" fill="#237891"/><text x="532" y="258.963950447" text-anchor="middle">0.0049</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg><svg x="0" y="640" width="640" height="320" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>Verification elapsed time</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Verification elapsed time</text><text x="16" y="46">Mean elapsed seconds / run</text>
+<rect x="92" y="270" width="70" height="0" fill="#237891"/><text x="127" y="260" text-anchor="middle">0</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<rect x="227" y="270" width="70" height="0" fill="#237891"/><text x="262" y="260" text-anchor="middle">0</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<rect x="362" y="268.134678192" width="70" height="1.8653218079999996" fill="#237891"/><text x="397" y="258.134678192" text-anchor="middle">0.0089</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<rect x="497" y="268.031187504" width="70" height="1.9688124960000004" fill="#237891"/><text x="532" y="258.031187504" text-anchor="middle">0.0094</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg></svg>
