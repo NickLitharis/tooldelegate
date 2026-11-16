@@ -189,13 +189,23 @@ pub enum Action {
     Finish {},
 }
 
-pub fn schema(direct: bool) -> Value {
+pub fn schema(direct: bool, read_bytes: usize) -> Value {
     let rule = "Return exactly one JSON object per turn with a type field at its top level. Do not wrap the action in another object or an array. Do not return prose, multiple objects, or any field not listed here.";
+    let read_limit = read_bytes.max(1);
+    let read_note = format!(
+        "read returns the requested byte range as a JSON byte array; bytes must be at least 1 and at most {read_limit} per call, and offset pages through a larger file"
+    );
     if direct {
         json!({
             "response_rule": rule,
+            "notes": [
+                read_note,
+                "put writes UTF-8 content to the artifact; append=true continues the previous content and append=false truncates it",
+                "submit only acknowledges the delivered artifact and creates no files",
+                "finish only after the artifact is complete and submitted"
+            ],
             "allowed_actions": [
-                {"type":"read","path":"relative input file","offset":"integer byte offset >= 0","bytes":"positive integer byte count"},
+                {"type":"read","path":"relative input file","offset":"integer byte offset >= 0","bytes":format!("integer from 1 to {read_limit}")},
                 {"type":"put","path":"relative artifact path","content":"UTF-8 chunk","append":"boolean; false truncates"},
                 {"type":"remove","path":"relative file"},
                 {"type":"mkdir","path":"relative directory"},
@@ -203,7 +213,7 @@ pub fn schema(direct: bool) -> Value {
                 {"type":"finish"}
             ],
             "examples": [
-                {"type":"read","path":"input.csv","offset":0,"bytes":65536},
+                {"type":"read","path":"input.csv","offset":0,"bytes":read_limit},
                 {"type":"put","path":"output.csv","content":"row\n","append":false},
                 {"type":"submit","commands":null},
                 {"type":"finish"}
@@ -212,14 +222,19 @@ pub fn schema(direct: bool) -> Value {
     } else {
         json!({
             "response_rule": rule,
+            "notes": [
+                read_note,
+                "submit executes the listed commands sequentially in the task work tree and returns arm feedback",
+                "the original inputs are already in the task work tree; commands may read them directly, so read is only needed to inspect bytes in context"
+            ],
             "allowed_programs": crate::executor::ALLOWLIST,
             "allowed_actions": [
-                {"type":"read","path":"relative input file","offset":"integer byte offset >= 0","bytes":"positive integer byte count"},
+                {"type":"read","path":"relative input file","offset":"integer byte offset >= 0","bytes":format!("integer from 1 to {read_limit}")},
                 {"type":"submit","commands":"nonempty list of argument arrays; executed sequentially, then arm feedback is returned. This object has no other fields."},
                 {"type":"finish"}
             ],
             "examples": [
-                {"type":"read","path":"input.csv","offset":0,"bytes":65536},
+                {"type":"read","path":"input.csv","offset":0,"bytes":read_limit},
                 {"type":"submit","commands":[["python3","-I","-c","print(1)"]]},
                 {"type":"finish"}
             ]
@@ -264,13 +279,20 @@ mod tests {
     #[test]
     fn action_schema_examples_are_flat_and_parseable() {
         for direct in [true, false] {
-            let schema = schema(direct);
+            let schema = schema(direct, 1000);
             assert!(schema.get("actions").is_none());
             assert!(
                 schema["response_rule"]
                     .as_str()
                     .unwrap()
                     .contains("Do not wrap")
+            );
+            assert_eq!(schema["examples"][0]["bytes"], 1000);
+            assert!(
+                schema["allowed_actions"][0]["bytes"]
+                    .as_str()
+                    .unwrap()
+                    .contains("1000")
             );
             for example in schema["examples"].as_array().unwrap() {
                 serde_json::from_value::<Action>(example.clone())
@@ -281,8 +303,20 @@ mod tests {
                 assert!(action.get("fields").is_none());
                 assert!(action.get("allowlist").is_none());
             }
+            assert!(
+                schema["notes"]
+                    .as_array()
+                    .is_some_and(|notes| !notes.is_empty())
+            );
         }
-        assert!(schema(false)["allowed_programs"].is_array());
-        assert!(schema(true).get("allowed_programs").is_none());
+        assert!(schema(false, 1000)["allowed_programs"].is_array());
+        assert!(schema(true, 1000).get("allowed_programs").is_none());
+        assert!(
+            schema(true, 1000)["notes"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|note| note.as_str().unwrap().contains("creates no files"))
+        );
     }
 }

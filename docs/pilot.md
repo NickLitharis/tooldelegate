@@ -51,4 +51,4 @@ The unit test covers reproducible planning, all-arm matrix completeness, contigu
 
 ## Limitations
 
-The pilot uses provider-reported totals only; feedback and verification token attribution remain null. The ChatGPT Plus quota is shared with interactive OpenCode use, so an interrupted pilot is expected rather than exceptional. The plan records randomization but does not freeze hypotheses, the non-inferiority margin or the main protocol. The interface was smoke-tested once on `sorting-v0-s0` arm D (5 calls, 3,933 tokens, verifier and oracle PASS); see `reports/smoke-run.json`. That run is not pilot data.
+The pilot uses provider-reported totals only; feedback and verification token attribution remain null. The ChatGPT Plus quota is shared with interactive OpenCode use, so an interrupted pilot is expected rather than exceptional. The plan records randomization but does not freeze hypotheses, the non-inferiority margin or the main protocol. The interface was smoke-tested once per arm on `sorting-v0-s0`: B, C and D succeeded; A's interface worked but the model wrote a wrongly ordered artifact. See `reports/smoke-run.json`. These runs are not pilot data.

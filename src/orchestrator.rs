@@ -105,7 +105,7 @@ pub(crate) fn validate(config: &Config) -> Result<()> {
         || !config.decoding.is_object()
         || config.max_calls == 0
         || config.task_wall_seconds == 0
-        || config.feedback_bytes < 96
+        || config.feedback_bytes < 196
         || config.feedback_bytes > 65536
         || config.max_commands_per_attempt == 0
         || config.max_request_bytes == 0
@@ -158,8 +158,11 @@ pub fn run(
         .write(true)
         .open(root.join("trace.jsonl"))?;
     let synthetic = adapter.synthetic();
-    let schema = model_adapter::schema(arm == Arm::A);
-    let instruction = "Complete the task using only the supplied action interface. Read original inputs with read (byte offsets); returned data are JSON byte arrays. Artifacts live outside context. Do not emit artifacts except through put in arm A. Submit each complete attempt; at most max_retries additional submissions are allowed. Tool arms submit a complete ordered command batch; verification happens after that batch. Finish only after your final submission. No hidden oracle feedback is available. Resource limits and truncation are failures, not completion. Every response must be exactly one action JSON object.";
+    let schema = model_adapter::schema(arm == Arm::A, config.feedback_bytes.saturating_sub(96) / 4);
+    let mut instruction = "Complete the task using only the supplied action interface. Read original inputs with read (byte offsets); returned data are JSON byte arrays. Artifacts live outside context. Submit each complete attempt; at most max_retries additional submissions are allowed. Tool arms submit a complete ordered command batch; verification happens after that batch. Finish only after your final submission. No hidden oracle feedback is available. Resource limits and truncation are failures, not completion. Every response must be exactly one action JSON object.".to_owned();
+    if arm == Arm::A {
+        instruction.push_str(" Arm A has no command execution. Write the complete artifact into the work tree with put (append later chunks with append=true); submit only acknowledges delivery and creates no files. Finish only after the artifact is written and submitted.");
+    }
     let mut messages = vec![
         json!({"role":"system","content":instruction}),
         json!({"role":"user","content":{"requirement":manifest["requirement"],"input_paths":manifest["input_hashes"].as_object().ok_or("missing input inventory")?.keys().collect::<Vec<_>>()}}),
@@ -275,7 +278,8 @@ pub fn run(
                             &mut trace,
                             json!({"event":"action_error","call":call,"error":error.to_string()}),
                         )?;
-                        json!({"ok":false,"code":"ACTION_REJECTED"}).to_string()
+                        json!({"ok":false,"code":"ACTION_REJECTED","error":error.to_string()})
+                            .to_string()
                     }
                 }
             }

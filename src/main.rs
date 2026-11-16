@@ -282,10 +282,15 @@ mod tests {
             serde_json::from_str(include_str!("../reports/smoke-run.json")).unwrap();
         assert_eq!(smoke["pilot_run"], false);
         assert_eq!(smoke["benchmark_run"], false);
-        assert_eq!(smoke["attempts"].as_array().unwrap().len(), 3);
-        assert_eq!(smoke["attempts"][2]["success"], true);
-        assert_eq!(smoke["attempts"][2]["calls"], 5);
-        assert_eq!(smoke["attempts"][2]["verification_code"], "PASS");
+        assert_eq!(smoke["direct_arm_attempts"].as_array().unwrap().len(), 3);
+        assert_eq!(smoke["arm_checks"].as_array().unwrap().len(), 5);
+        assert_eq!(smoke["direct_arm_attempts"][2]["success"], true);
+        assert_eq!(smoke["direct_arm_attempts"][2]["calls"], 5);
+        assert_eq!(smoke["direct_arm_attempts"][2]["verification_code"], "PASS");
+        assert_eq!(smoke["arm_checks"][3]["arm"], "B");
+        assert_eq!(smoke["arm_checks"][3]["success"], true);
+        assert_eq!(smoke["arm_checks"][4]["arm"], "C");
+        assert_eq!(smoke["arm_checks"][4]["success"], true);
         let access: serde_json::Value =
             serde_json::from_str(include_str!("../reports/luna-access-check.json")).unwrap();
         assert_eq!(access["observed_opencode_requests"], 2);
