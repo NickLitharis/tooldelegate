@@ -51,6 +51,16 @@ Known token totals are lower bounds when an API call lacks usage. Exact token co
 
 Verifier input tokens, CPU, elapsed time, peak memory and retries are separate quantities. CPU and memory are never converted into model tokens. Latency means use available measurements and report their missing counts. Interrupted runs remain in success counts even when their duration is unknown.
 
+## Exploratory token-usage missingness
+
+Generate a separate descriptive diagnostic from saved run records:
+
+```sh
+cargo run --locked -- usage-missingness RECORDS.jsonl NEW_MISSINGNESS.md
+```
+
+The output path must not exist. The report breaks incomplete-usage rates down by arm, task family, generator size parameter, expected outcome and complexity. It reports failure-event categories and known partial token subtotals already present in the records. A zero subtotal is not evidence of zero token consumption. No failed-call usage is estimated, and this diagnostic does not change the primary report or make affected paired comparisons exact. Size parameters are family-specific settings, not a shared artifact-size scale. Treat all subgroup rates as descriptive.
+
 ## Paired comparisons and uncertainty
 
 A pair uses the same task instance and repetition. The comparisons are D versus A, B versus A, C versus B, D versus C and D versus B. Each also appears within family, size, semantic complexity and expected-outcome groups.

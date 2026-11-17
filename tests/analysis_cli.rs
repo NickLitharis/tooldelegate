@@ -112,6 +112,42 @@ fn report_regenerates_identically_with_seven_charts_and_no_script_injection() {
     );
     fs::remove_dir_all(root).unwrap();
 }
+#[test]
+fn usage_missingness_cli_reports_partial_usage_without_imputing() {
+    let root = root();
+    let mut records = support::records(1);
+    records[0]["metrics"]["usage_complete"] = json!(false);
+    records[0]["metrics"]["total_tokens"] = json!(30);
+    records[0]["failure_events"] = json!([{"category":"provider_content_rejection"}]);
+    records[3]["metrics"]["usage_complete"] = json!(false);
+    records[3]["metrics"]["total_tokens"] = json!(0);
+    records[3]["failure_events"] = json!([{"category":"adapter_transport_failure"}]);
+    let input = root.join("records.jsonl");
+    fs::write(&input, jsonl(&records)).unwrap();
+    let output = root.join("missingness.md");
+
+    let result = run(&["usage-missingness", path(&input), path(&output)]);
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    let report = fs::read_to_string(&output).unwrap();
+    assert!(report.contains("Records: **8**"));
+    assert!(report.contains("Usage incomplete: **2"));
+    assert!(report.contains("provider_content_rejection"));
+    assert!(report.contains("adapter_transport_failure"));
+    assert!(report.contains("Known partial token subtotal within incomplete records: **30**"));
+    assert!(report.contains("A zero subtotal does not prove zero token usage"));
+    assert!(report.contains("| D vs A | 2 | 1 | 1 |"));
+    assert!(report.contains("| A | 1 | 0 | 0 |"));
+    assert!(
+        !run(&["usage-missingness", path(&input), path(&output),])
+            .status
+            .success()
+    );
+    fs::remove_dir_all(root).unwrap();
+}
 
 #[test]
 fn collection_recovers_interrupted_runs_instead_of_dropping_them() {

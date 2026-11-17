@@ -13,6 +13,7 @@ mod filesystem_task;
 mod invocation;
 mod luna_connector;
 mod metrics;
+mod missingness;
 mod model_adapter;
 mod oracle;
 mod orchestrator;
@@ -83,6 +84,9 @@ fn main() -> Result<(), Box<dyn Error>> {
             Path::new(&args[5]),
             Path::new(&args[6]),
         );
+    }
+    if args.len() == 4 && args[1] == "usage-missingness" {
+        return missingness::generate(Path::new(&args[2]), Path::new(&args[3]));
     }
     if args.len() == 5 && args[1] == "analyze" {
         return report::generate(
