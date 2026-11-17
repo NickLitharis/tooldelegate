@@ -1,0 +1,2 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 340"><title>Token efficiency versus correctness</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Token efficiency versus correctness</text><text x="16" y="47">Total tokens / successful runs</text><text x="320" y="326" text-anchor="middle">Completed hidden-oracle success (%)</text>
+<text x="80" y="160">No fully measured, defined points</text></svg>

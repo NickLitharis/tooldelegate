@@ -75,7 +75,7 @@ fn exchange() -> Result<Reply, Box<dyn Error>> {
         .as_f64()
         .filter(|seconds| *seconds > 0.0)
         .ok_or_else(|| err("remaining_wall_seconds missing"))?;
-    // The harness kills the connector at the smaller of 90 seconds and the remaining
+    // The harness kills the connector at the smaller of 120 seconds and the remaining
     // wall budget. Finish earlier so a timeout is reported as JSON instead of an
     // unexplained empty stdout.
     let timeout = (remaining - 5.0).clamp(1.0, DEFAULT_TIMEOUT_SECONDS);
@@ -290,6 +290,7 @@ fn post(access: &str, account: &str, body: &[u8], timeout: f64) -> Result<Vec<u8
             "OpenAI-Beta: responses=experimental",
             "--header",
             "originator: opencode",
+            "--header",
             "x-codex-beta-features: remote_compaction_v2",
             "--data-binary",
             "@-",

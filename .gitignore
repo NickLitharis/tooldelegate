@@ -4,4 +4,5 @@ __pycache__/
 # the reproducible analysis inputs.
 /main/runs/
 /main-[0-9]*/runs/
+/main-v3-[0-9]*/runs/
 

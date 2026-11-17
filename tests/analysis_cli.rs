@@ -96,6 +96,9 @@ fn report_regenerates_identically_with_seven_charts_and_no_script_injection() {
         md.lines().filter(|line| line.starts_with("## ")).count(),
         14
     );
+    assert!(md.contains("this report does not infer them from the presence of data"));
+    assert!(!md.contains("protocol and margin remain unfrozen"));
+    assert!(!md.contains("no claim that the main experiment has been run"));
     let summary: Value =
         serde_json::from_slice(&fs::read(first.join("summary.json")).unwrap()).unwrap();
     assert_eq!(summary["confirmatory"], false);

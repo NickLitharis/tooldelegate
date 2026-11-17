@@ -1,5 +1,7 @@
 # Main experiment: execution and reproduction
 
+Versions: v1 ran as `main/` + `main-1…4` (seed 42) and is reported in `main-report/`. v2 was aborted after 43 cells (`main-v2-1…4`, seed 43) and is never analyzed. v3 is the transport-hardened replication (`main-v3-1…4`, seed 44, [protocol-v3.md](protocol-v3.md)) and is reported separately in `main-v3-report/`. The commands below use a root prefix; pass `main-v3` for v3.
+
 Protocol: [protocol.md](protocol.md). Frozen settings: `configs/experiment.json`, `configs/run.luna.json`, `configs/analysis.main.json`. Dataset: `dataset/` (suite v3, seed 2026); it is committed and regenerable with `cargo run --locked -- generate-suite dataset 2026` into a new path.
 
 ## Execution
@@ -16,11 +18,13 @@ The actual run was split for wall time: 54 cells ran sequentially in `main/`, th
 ## Records and report
 
 ```sh
-./scripts/collect-main.sh main/records.jsonl
+./scripts/collect-main.sh main/records.jsonl main
 cargo run --locked -- analyze main/records.jsonl main-report configs/analysis.main.json
 ```
 
-`collect-main.sh` walks `main*/index.jsonl`, uses only indexed run directories, rejects duplicate directories, and refuses to overwrite an existing output. Partial attempts without an index entry are excluded.
+For v3: `./scripts/collect-main.sh main-v3/records.jsonl main-v3` and analyze with `configs/analysis-v3.json` into `main-v3-report`.
+
+`collect-main.sh` walks `<prefix>/index.jsonl` and `<prefix>-*/index.jsonl`, uses only indexed run directories, rejects duplicate directories, and refuses to overwrite an existing output. Partial attempts without an index entry are excluded.
 
 Reproduce the report into a different directory and compare:
 
@@ -45,3 +49,11 @@ The sensitivity report lists excluded cells as missing. It is not the primary an
 - Unknown usage makes token totals lower bounds; no imputation.
 - Resource-limit incompletions remain in every denominator and in the success rate.
 - Per-message feedback/verification attribution is null; H3 uses total input tokens and returned feedback bytes only.
+
+## v3 results
+
+The 576-cell v3 replication completed and is analyzed separately in `main-v3-report/`. It produced 477 finished runs, 67 resource-limit failures, 26 adapter errors, and 6 call-limit failures. Successes were A 24/144 (16.7%), B 106/144 (73.6%), C 104/144 (72.2%), and D 101/144 (70.1%).
+
+D−A correctness difference was +0.535; its exploratory one-sided lower bound was +0.410, above the 0.05 non-inferiority margin. D was not non-inferior to B or C. The token comparison is **not estimable**: 26 runs had unknown usage, leaving 14 unknown D−A pairs. Known arm token sums are lower bounds. H1's token-saving claim therefore remains unestablished.
+
+Post-run review found a malformed `curl` header option in the connector and fixed it with a request-header regression test. The v3 data are preserved as executed; this code fix does not revise those records. See [protocol-v3.md](protocol-v3.md) for the correction and limitations. Never pool v3 with v1, aborted v2, pilot, or smoke runs.

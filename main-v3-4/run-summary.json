@@ -1,0 +1,45 @@
+{
+  "by_arm": {
+    "A": {
+      "calls": 189,
+      "incomplete": 10,
+      "oracle_pass": 6,
+      "runs": 25,
+      "success": 6,
+      "total_tokens": 801545
+    },
+    "B": {
+      "calls": 375,
+      "incomplete": 5,
+      "oracle_pass": 31,
+      "runs": 43,
+      "success": 31,
+      "total_tokens": 1156939
+    },
+    "C": {
+      "calls": 280,
+      "incomplete": 5,
+      "oracle_pass": 26,
+      "runs": 39,
+      "success": 26,
+      "total_tokens": 843560
+    },
+    "D": {
+      "calls": 210,
+      "incomplete": 6,
+      "oracle_pass": 25,
+      "runs": 37,
+      "success": 25,
+      "total_tokens": 520580
+    }
+  },
+  "calls": 1054,
+  "incomplete": 26,
+  "oracle_pass": 88,
+  "planned": 144,
+  "remaining": 0,
+  "runs": 144,
+  "success": 88,
+  "total_tokens": 3322624,
+  "usage_incomplete": 5
+}

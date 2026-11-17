@@ -5,13 +5,14 @@
 set -euo pipefail
 
 out=${1:-main/records.jsonl}
+prefix=${2:-main}
 if [[ -e "$out" ]]; then
   echo "refusing to overwrite $out" >&2
   exit 1
 fi
 
 dirs=()
-for index in main/index.jsonl main-[0-9]*/index.jsonl; do
+for index in "$prefix"/index.jsonl "$prefix"-[0-9]*/index.jsonl; do
   [[ -f "$index" ]] || continue
   mapfile -t part < <(jq -r '.run_dir' "$index")
   dirs+=("${part[@]}")

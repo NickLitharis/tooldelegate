@@ -93,6 +93,7 @@ fn maps_conversation_and_records_provider_usage() {
         "connector must send the broker credential"
     );
     assert!(received.contains("chatgpt-account-id: test-account"));
+    assert!(received.contains("x-codex-beta-features: remote_compaction_v2"));
     let body: Value = serde_json::from_str(received.split("\r\n\r\n").nth(1).unwrap()).unwrap();
     assert_eq!(
         body["instructions"],
@@ -120,7 +121,7 @@ fn aborts_runaway_provider_stream() {
     let (port, server) = serve(Mock {
         status: "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\n",
         headers: "",
-        body: "x".repeat(1_100_000),
+        body: "x".repeat(2_200_000),
     });
     let start = std::time::Instant::now();
     let (output, reply) = run(port, &request());

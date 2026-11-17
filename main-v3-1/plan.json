@@ -1,0 +1,977 @@
+{
+  "algorithm": "splitmix64-fisher-yates-v1",
+  "dataset": {
+    "seed": 2026,
+    "status": "draft",
+    "tasks": [
+      "sorting-v0-s0",
+      "sorting-v0-s1",
+      "sorting-v0-s2",
+      "sorting-v1-s0",
+      "sorting-v1-s1",
+      "sorting-v1-s2",
+      "sorting-v2-s0",
+      "sorting-v2-s1",
+      "sorting-v2-s2",
+      "sorting-v3-s0",
+      "sorting-v3-s1",
+      "sorting-v3-s2",
+      "filesystem-v0-s0",
+      "filesystem-v0-s1",
+      "filesystem-v0-s2",
+      "filesystem-v1-s0",
+      "filesystem-v1-s1",
+      "filesystem-v1-s2",
+      "filesystem-v2-s0",
+      "filesystem-v2-s1",
+      "filesystem-v2-s2",
+      "filesystem-v3-s0",
+      "filesystem-v3-s1",
+      "filesystem-v3-s2",
+      "text-v0-s0",
+      "text-v0-s1",
+      "text-v0-s2",
+      "text-v1-s0",
+      "text-v1-s1",
+      "text-v1-s2",
+      "text-v2-s0",
+      "text-v2-s1",
+      "text-v2-s2",
+      "text-v3-s0",
+      "text-v3-s1",
+      "text-v3-s2",
+      "aggregation-v0-s0",
+      "aggregation-v0-s1",
+      "aggregation-v0-s2",
+      "aggregation-v1-s0",
+      "aggregation-v1-s1",
+      "aggregation-v1-s2",
+      "aggregation-v2-s0",
+      "aggregation-v2-s1",
+      "aggregation-v2-s2",
+      "aggregation-v3-s0",
+      "aggregation-v3-s1",
+      "aggregation-v3-s2"
+    ],
+    "version": "suite-v3"
+  },
+  "dataset_manifest_sha256": "d8eba30f51e3adc13cf0882ce4d56f701c187020bfac16b70fb6a602865437ec",
+  "kind": "experiment_plan",
+  "randomization_seed": 44,
+  "repetitions": 3,
+  "runs": [
+    {
+      "arm": "A",
+      "index": 0,
+      "repetition": 1,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "B",
+      "index": 1,
+      "repetition": 2,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "B",
+      "index": 2,
+      "repetition": 2,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "C",
+      "index": 3,
+      "repetition": 0,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "C",
+      "index": 4,
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "C",
+      "index": 5,
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 6,
+      "repetition": 2,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "D",
+      "index": 7,
+      "repetition": 2,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "B",
+      "index": 8,
+      "repetition": 0,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "B",
+      "index": 9,
+      "repetition": 1,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "B",
+      "index": 10,
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "A",
+      "index": 11,
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "A",
+      "index": 12,
+      "repetition": 1,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "A",
+      "index": 13,
+      "repetition": 1,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 14,
+      "repetition": 0,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "D",
+      "index": 15,
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "B",
+      "index": 16,
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "B",
+      "index": 17,
+      "repetition": 2,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "D",
+      "index": 18,
+      "repetition": 0,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "B",
+      "index": 19,
+      "repetition": 2,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "A",
+      "index": 20,
+      "repetition": 0,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "D",
+      "index": 21,
+      "repetition": 1,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "A",
+      "index": 22,
+      "repetition": 2,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "index": 23,
+      "repetition": 2,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "A",
+      "index": 24,
+      "repetition": 1,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "index": 25,
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "index": 26,
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "B",
+      "index": 27,
+      "repetition": 1,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 28,
+      "repetition": 2,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "index": 29,
+      "repetition": 0,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "B",
+      "index": 30,
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "A",
+      "index": 31,
+      "repetition": 2,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "A",
+      "index": 32,
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "B",
+      "index": 33,
+      "repetition": 1,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "C",
+      "index": 34,
+      "repetition": 2,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "B",
+      "index": 35,
+      "repetition": 0,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "A",
+      "index": 36,
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "index": 37,
+      "repetition": 1,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "D",
+      "index": 38,
+      "repetition": 2,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "D",
+      "index": 39,
+      "repetition": 1,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "A",
+      "index": 40,
+      "repetition": 0,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "A",
+      "index": 41,
+      "repetition": 2,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "index": 42,
+      "repetition": 0,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "D",
+      "index": 43,
+      "repetition": 0,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "index": 44,
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "A",
+      "index": 45,
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "A",
+      "index": 46,
+      "repetition": 1,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "B",
+      "index": 47,
+      "repetition": 0,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "C",
+      "index": 48,
+      "repetition": 1,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "A",
+      "index": 49,
+      "repetition": 1,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "D",
+      "index": 50,
+      "repetition": 1,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "index": 51,
+      "repetition": 0,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "A",
+      "index": 52,
+      "repetition": 1,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "index": 53,
+      "repetition": 2,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "index": 54,
+      "repetition": 1,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "B",
+      "index": 55,
+      "repetition": 1,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "D",
+      "index": 56,
+      "repetition": 1,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "A",
+      "index": 57,
+      "repetition": 2,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "D",
+      "index": 58,
+      "repetition": 1,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "A",
+      "index": 59,
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 60,
+      "repetition": 2,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 61,
+      "repetition": 1,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "D",
+      "index": 62,
+      "repetition": 1,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "B",
+      "index": 63,
+      "repetition": 0,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 64,
+      "repetition": 1,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "C",
+      "index": 65,
+      "repetition": 0,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "D",
+      "index": 66,
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 67,
+      "repetition": 1,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "index": 68,
+      "repetition": 2,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "A",
+      "index": 69,
+      "repetition": 2,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "B",
+      "index": 70,
+      "repetition": 1,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "A",
+      "index": 71,
+      "repetition": 0,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "D",
+      "index": 72,
+      "repetition": 2,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "D",
+      "index": 73,
+      "repetition": 2,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "index": 74,
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "A",
+      "index": 75,
+      "repetition": 2,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "C",
+      "index": 76,
+      "repetition": 0,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "D",
+      "index": 77,
+      "repetition": 0,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 78,
+      "repetition": 1,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "A",
+      "index": 79,
+      "repetition": 1,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "B",
+      "index": 80,
+      "repetition": 2,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "A",
+      "index": 81,
+      "repetition": 2,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "A",
+      "index": 82,
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "C",
+      "index": 83,
+      "repetition": 0,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "D",
+      "index": 84,
+      "repetition": 2,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 85,
+      "repetition": 0,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "C",
+      "index": 86,
+      "repetition": 1,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "B",
+      "index": 87,
+      "repetition": 1,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "D",
+      "index": 88,
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "C",
+      "index": 89,
+      "repetition": 0,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "B",
+      "index": 90,
+      "repetition": 1,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "A",
+      "index": 91,
+      "repetition": 2,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "index": 92,
+      "repetition": 2,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "A",
+      "index": 93,
+      "repetition": 1,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "B",
+      "index": 94,
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "B",
+      "index": 95,
+      "repetition": 1,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "D",
+      "index": 96,
+      "repetition": 0,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "C",
+      "index": 97,
+      "repetition": 2,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "index": 98,
+      "repetition": 0,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "index": 99,
+      "repetition": 2,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "A",
+      "index": 100,
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "D",
+      "index": 101,
+      "repetition": 2,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "C",
+      "index": 102,
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "D",
+      "index": 103,
+      "repetition": 2,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "B",
+      "index": 104,
+      "repetition": 2,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "index": 105,
+      "repetition": 2,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "C",
+      "index": 106,
+      "repetition": 1,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "D",
+      "index": 107,
+      "repetition": 1,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "C",
+      "index": 108,
+      "repetition": 1,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "index": 109,
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 110,
+      "repetition": 2,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "C",
+      "index": 111,
+      "repetition": 0,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "C",
+      "index": 112,
+      "repetition": 2,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "index": 113,
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "index": 114,
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "A",
+      "index": 115,
+      "repetition": 0,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "B",
+      "index": 116,
+      "repetition": 1,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "B",
+      "index": 117,
+      "repetition": 0,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "C",
+      "index": 118,
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "A",
+      "index": 119,
+      "repetition": 2,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "D",
+      "index": 120,
+      "repetition": 1,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "index": 121,
+      "repetition": 2,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "B",
+      "index": 122,
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 123,
+      "repetition": 2,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "A",
+      "index": 124,
+      "repetition": 1,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 125,
+      "repetition": 1,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "C",
+      "index": 126,
+      "repetition": 1,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "D",
+      "index": 127,
+      "repetition": 0,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "B",
+      "index": 128,
+      "repetition": 1,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 129,
+      "repetition": 0,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "C",
+      "index": 130,
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "D",
+      "index": 131,
+      "repetition": 2,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "A",
+      "index": 132,
+      "repetition": 2,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "A",
+      "index": 133,
+      "repetition": 1,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "C",
+      "index": 134,
+      "repetition": 2,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "B",
+      "index": 135,
+      "repetition": 0,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "B",
+      "index": 136,
+      "repetition": 2,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "index": 137,
+      "repetition": 2,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "C",
+      "index": 138,
+      "repetition": 0,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "index": 139,
+      "repetition": 1,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "D",
+      "index": 140,
+      "repetition": 0,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "C",
+      "index": 141,
+      "repetition": 2,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "C",
+      "index": 142,
+      "repetition": 1,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "A",
+      "index": 143,
+      "repetition": 1,
+      "task_id": "text-v1-s1"
+    }
+  ],
+  "status": "draft_not_authorized_for_execution",
+  "tasks": [
+    "aggregation-v0-s0",
+    "aggregation-v0-s1",
+    "aggregation-v0-s2",
+    "aggregation-v1-s0",
+    "aggregation-v1-s1",
+    "aggregation-v1-s2",
+    "aggregation-v2-s0",
+    "aggregation-v2-s1",
+    "aggregation-v2-s2",
+    "aggregation-v3-s0",
+    "aggregation-v3-s1",
+    "aggregation-v3-s2",
+    "filesystem-v0-s0",
+    "filesystem-v0-s1",
+    "filesystem-v0-s2",
+    "filesystem-v1-s0",
+    "filesystem-v1-s1",
+    "filesystem-v1-s2",
+    "filesystem-v2-s0",
+    "filesystem-v2-s1",
+    "filesystem-v2-s2",
+    "filesystem-v3-s0",
+    "filesystem-v3-s1",
+    "filesystem-v3-s2",
+    "sorting-v0-s0",
+    "sorting-v0-s1",
+    "sorting-v0-s2",
+    "sorting-v1-s0",
+    "sorting-v1-s1",
+    "sorting-v1-s2",
+    "sorting-v2-s1",
+    "sorting-v2-s2",
+    "sorting-v3-s0",
+    "sorting-v3-s2",
+    "text-v0-s0",
+    "text-v0-s1",
+    "text-v0-s2",
+    "text-v1-s0",
+    "text-v1-s1",
+    "text-v1-s2",
+    "text-v2-s0",
+    "text-v2-s1",
+    "text-v2-s2",
+    "text-v3-s0",
+    "text-v3-s1",
+    "text-v3-s2"
+  ]
+}

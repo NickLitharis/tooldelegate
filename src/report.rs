@@ -282,7 +282,7 @@ fn markdown(summary: &Value) -> String {
     };
     let mut text = format!("# Verified CLI Delegation Benchmark\n\n**{banner}**\n\n");
     text.push_str("## 1. Research question and hypotheses\n\nWhen does CLI delegation with compact verification feedback reduce model tokens without reducing correctness? H1 tests efficiency and correctness separately. H2 tests size dependence and in-range crossover. H3 isolates raw verification and compression effects. H4 examines invocation-complexity limitations independently. No treatment advantage is assumed.\n\n");
-    text.push_str("## 2. Experimental methodology\n\nAll supplied runs, including failures and incomplete runs, remain in arm summaries. Paired effects weight each task instance equally, retaining paired repetitions within task clusters. Main and pilot experiments are not inferred from the presence of data. The protocol and margin remain unfrozen.\n\n");
+    text.push_str("## 2. Experimental methodology\n\nAll supplied runs, including failures and incomplete runs, remain in arm summaries. Paired effects weight each task instance equally, retaining paired repetitions within task clusters. Protocol, cohort, and confirmatory status are defined by preregistration; this report does not infer them from the presence of data.\n\n");
     text.push_str(&json_block(&json!({"model":summary["model"],"decoding":summary["decoding"],"analysis_config":summary["config"],"matrix_complete":summary["matrix_complete"],"records":summary["records"],"expected_records":summary["expected_records"],"missing_cells":summary["missing_cells"],"unidentified_missing_tasks":summary["unidentified_missing_tasks"],"protocol_violation_runs":summary["protocol_violation_runs"]})));
     text.push_str("\n## 3. Dataset description\n\nInputs and requirements are validated against run manifests. Input byte count is an artifact-size proxy, not final-output size. Expected error tasks are retained; the boundary model controls for expected failure when identifiable. Detailed family, size, complexity and outcome strata are in summary.json.\n\n| Family / arm | Runs | Successes | Exact model tokens |\n|---|---:|---:|---:|\n");
     if let Some(groups) = summary["strata"]["family"].as_object() {
@@ -298,7 +298,7 @@ fn markdown(summary: &Value) -> String {
             .unwrap();
         }
     }
-    text.push_str("\n## 4. Implementation architecture\n\nRust dataset generators, immutable originals, fresh Linux bubblewrap workspaces, single-process tool execution, independent feedback verification, bounded certificates, model adapters, host-only JSONL telemetry and a separate hidden oracle. Provider/tokenizer validation and protocol freeze remain prerequisites to a real study.\n\n## 5. Token consumption by arm\n\nUnknown usage is not zero; known totals are lower bounds whenever usage is incomplete.\n\n| Arm | Runs | Exact tokens | Known tokens | Unknown-usage runs |\n|---|---:|---:|---:|---:|\n");
+    text.push_str("\n## 4. Implementation architecture\n\nRust dataset generators, immutable originals, fresh Linux bubblewrap workspaces, single-process tool execution, independent feedback verification, bounded certificates, model adapters, host-only JSONL telemetry and a separate hidden oracle. Provider and protocol validation status is documented in the applicable protocol.\n\n## 5. Token consumption by arm\n\nUnknown usage is not zero; known totals are lower bounds whenever usage is incomplete.\n\n| Arm | Runs | Exact tokens | Known tokens | Unknown-usage runs |\n|---|---:|---:|---:|---:|\n");
     for arm in ARMS {
         let a = &summary["arms"][arm];
         writeln!(
@@ -371,7 +371,7 @@ fn markdown(summary: &Value) -> String {
     }
     text.push_str("\n![Latency](latency.svg)\n\n## 14. Conclusions and reproducibility\n\nToken reduction alone is insufficient to establish an overall improvement. Hypotheses are evaluated independently; the report can show no advantage or no established non-inferiority. Synthetic fixtures support none of the scientific hypotheses.\n\n");
     text.push_str(&json_block(&summary["hypotheses"]));
-    text.push_str("\nRegenerate from the repository root, preserving Cargo.lock:\n\n```sh\ncargo run --locked -- analyze REPORT_DIRECTORY/records.jsonl NEW_OUTPUT REPORT_DIRECTORY/config.json\n```\n\nThe report bundles source records, normalized analysis settings, summary.json and seven SVGs. Source hashes are in summary.json. Keep original run directories for full prompts, provider payloads, tool output and environment evidence. This report contains no invented missing values and no claim that the main experiment has been run.\n");
+    text.push_str("\nRegenerate from the repository root, preserving Cargo.lock:\n\n```sh\ncargo run --locked -- analyze REPORT_DIRECTORY/records.jsonl NEW_OUTPUT REPORT_DIRECTORY/config.json\n```\n\nThe report bundles source records, normalized analysis settings, summary.json and seven SVGs. Source hashes are in summary.json. Keep original run directories for full prompts, provider payloads, tool output and environment evidence. Consult the preregistration for cohort and confirmatory status; the generated report does not infer these from its record count.\n");
     text
 }
 

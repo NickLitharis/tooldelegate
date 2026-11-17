@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>Task success by arm</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Task success by arm</text><text x="16" y="46">Completed hidden-oracle passes (%)</text>
+<rect x="92" y="235" width="70" height="34.99999999999999" fill="#237891"/><text x="127" y="225" text-anchor="middle">16.6667</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<rect x="227" y="115.41666666666666" width="70" height="154.58333333333334" fill="#237891"/><text x="262" y="105.41666666666666" text-anchor="middle">73.6111</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<rect x="362" y="118.33333333333337" width="70" height="151.66666666666663" fill="#237891"/><text x="397" y="108.33333333333337" text-anchor="middle">72.2222</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<rect x="497" y="122.70833333333334" width="70" height="147.29166666666666" fill="#237891"/><text x="532" y="112.70833333333334" text-anchor="middle">70.1389</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg>

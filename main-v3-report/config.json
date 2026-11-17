@@ -1,0 +1,10 @@
+{
+  "bootstrap_seed": 2026,
+  "bootstrap_samples": 2000,
+  "minimum_clusters": 48,
+  "expected_tasks": 48,
+  "expected_repetitions": 3,
+  "non_inferiority_margin": 0.05,
+  "margin_justification": "Unchanged: at most one additional failure per 20 runs in a non-safety-critical transformation workflow. Frozen before v3 execution.",
+  "allow_synthetic": false
+}
