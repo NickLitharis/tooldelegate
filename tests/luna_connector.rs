@@ -100,6 +100,7 @@ fn maps_conversation_and_records_provider_usage() {
     );
     assert_eq!(body["model"], "gpt-6-luna");
     assert_eq!(body["tools"], json!([]));
+    assert!(body.get("include").is_none());
     assert_eq!(body["store"], false);
     assert_eq!(body["stream"], true);
     assert_eq!(body["temperature"], 0);
@@ -112,6 +113,22 @@ fn maps_conversation_and_records_provider_usage() {
     assert_eq!(body["input"][1]["role"], "assistant");
     assert_eq!(body["input"][2]["role"], "user");
     assert_eq!(body["input"][2]["content"][0]["text"], "bytes");
+}
+
+#[test]
+fn aborts_runaway_provider_stream() {
+    let (port, server) = serve(Mock {
+        status: "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\n",
+        headers: "",
+        body: "x".repeat(1_100_000),
+    });
+    let start = std::time::Instant::now();
+    let (output, reply) = run(port, &request());
+    server.join().unwrap();
+    assert!(!output.status.success());
+    let error = reply["error"].as_str().unwrap();
+    assert!(error.contains("byte cap"), "{error}");
+    assert!(start.elapsed() < std::time::Duration::from_secs(30));
 }
 
 #[test]

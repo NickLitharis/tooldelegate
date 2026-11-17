@@ -1,0 +1,2943 @@
+{
+  "algorithm": "splitmix64-fisher-yates-v1",
+  "dataset": {
+    "seed": 2026,
+    "status": "draft",
+    "tasks": [
+      "sorting-v0-s0",
+      "sorting-v0-s1",
+      "sorting-v0-s2",
+      "sorting-v1-s0",
+      "sorting-v1-s1",
+      "sorting-v1-s2",
+      "sorting-v2-s0",
+      "sorting-v2-s1",
+      "sorting-v2-s2",
+      "sorting-v3-s0",
+      "sorting-v3-s1",
+      "sorting-v3-s2",
+      "filesystem-v0-s0",
+      "filesystem-v0-s1",
+      "filesystem-v0-s2",
+      "filesystem-v1-s0",
+      "filesystem-v1-s1",
+      "filesystem-v1-s2",
+      "filesystem-v2-s0",
+      "filesystem-v2-s1",
+      "filesystem-v2-s2",
+      "filesystem-v3-s0",
+      "filesystem-v3-s1",
+      "filesystem-v3-s2",
+      "text-v0-s0",
+      "text-v0-s1",
+      "text-v0-s2",
+      "text-v1-s0",
+      "text-v1-s1",
+      "text-v1-s2",
+      "text-v2-s0",
+      "text-v2-s1",
+      "text-v2-s2",
+      "text-v3-s0",
+      "text-v3-s1",
+      "text-v3-s2",
+      "aggregation-v0-s0",
+      "aggregation-v0-s1",
+      "aggregation-v0-s2",
+      "aggregation-v1-s0",
+      "aggregation-v1-s1",
+      "aggregation-v1-s2",
+      "aggregation-v2-s0",
+      "aggregation-v2-s1",
+      "aggregation-v2-s2",
+      "aggregation-v3-s0",
+      "aggregation-v3-s1",
+      "aggregation-v3-s2"
+    ],
+    "version": "suite-v3"
+  },
+  "randomization_seed": 43,
+  "repetitions": 3,
+  "runs": [
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v3-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "sorting-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v0-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "sorting-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v0-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "text-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "sorting-v1-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v0-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "text-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "filesystem-v2-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v3-s1"
+    },
+    {
+      "arm": "C",
+      "repetition": 2,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "sorting-v3-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 0,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 2,
+      "task_id": "text-v2-s0"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "aggregation-v1-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 0,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v1-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v3-s1"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s2"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "sorting-v3-s2"
+    },
+    {
+      "arm": "C",
+      "repetition": 0,
+      "task_id": "filesystem-v0-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 2,
+      "task_id": "filesystem-v1-s0"
+    },
+    {
+      "arm": "C",
+      "repetition": 1,
+      "task_id": "sorting-v2-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "aggregation-v3-s2"
+    },
+    {
+      "arm": "D",
+      "repetition": 0,
+      "task_id": "text-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 1,
+      "task_id": "filesystem-v0-s0"
+    },
+    {
+      "arm": "B",
+      "repetition": 2,
+      "task_id": "text-v1-s1"
+    },
+    {
+      "arm": "D",
+      "repetition": 1,
+      "task_id": "text-v3-s0"
+    },
+    {
+      "arm": "A",
+      "repetition": 1,
+      "task_id": "aggregation-v2-s1"
+    }
+  ],
+  "status": "draft_not_authorized_for_execution"
+}

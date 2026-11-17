@@ -18,15 +18,20 @@ use std::{
     os::unix::fs::{DirBuilderExt, OpenOptionsExt},
     path::PathBuf,
     process::{Command, Stdio},
+    sync::{
+        Arc,
+        atomic::{AtomicU64, Ordering},
+    },
     thread,
-    time::{SystemTime, UNIX_EPOCH},
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 const MAX_REQUEST_BYTES: usize = 32 * 1024 * 1024;
 const MAX_RESPONSE_BYTES: usize = 8 * 1024 * 1024;
+const MAX_STREAM_BYTES: usize = 1024 * 1024;
 const MAX_STDERR_BYTES: usize = 64 * 1024;
 const MAX_PAYLOAD_BYTES: usize = 1024 * 1024;
-const DEFAULT_TIMEOUT_SECONDS: f64 = 85.0;
+const DEFAULT_TIMEOUT_SECONDS: f64 = 55.0;
 const DEFAULT_BASE_URL: &str = "https://chatgpt.com/backend-api/codex";
 
 fn err(message: impl Into<String>) -> Box<dyn Error> {
@@ -168,7 +173,11 @@ fn provider_request(
             "max_output_tokens" => body["max_output_tokens"] = value.clone(),
             "reasoning_effort" => {
                 body["reasoning"] = json!({"effort": value, "summary": "auto"});
-                body["include"] = json!(["reasoning.encrypted_content"]);
+                // Requesting encrypted reasoning while effort is "none" can make the
+                // provider stream large reasoning payloads that are unusable here.
+                if value.as_str() != Some("none") {
+                    body["include"] = json!(["reasoning.encrypted_content"]);
+                }
             }
             other => return Err(err(format!("unsupported decoding field {other}"))),
         }
@@ -301,19 +310,44 @@ fn post(access: &str, account: &str, body: &[u8], timeout: f64) -> Result<Vec<u8
         .stdout
         .take()
         .ok_or_else(|| err("curl stdout missing"))?;
-    let reader = thread::spawn(move || crate::executor::drain(stdout, MAX_RESPONSE_BYTES));
+    let counter = Arc::new(AtomicU64::new(0));
+    let reader_counter = Arc::clone(&counter);
+    let reader = thread::spawn(move || read_stream(stdout, MAX_STREAM_BYTES, reader_counter));
     let stderr = child
         .stderr
         .take()
         .ok_or_else(|| err("curl stderr missing"))?;
     let errors = thread::spawn(move || crate::executor::drain(stderr, MAX_STDERR_BYTES));
-    let status = child.wait()?;
+    let started = Instant::now();
+    let mut exceeded_stream = false;
+    let status = loop {
+        if let Some(status) = child.try_wait()? {
+            break status;
+        }
+        if counter.load(Ordering::Relaxed) > MAX_STREAM_BYTES as u64 {
+            exceeded_stream = true;
+            let _ = child.kill();
+            break child.wait()?;
+        }
+        if started.elapsed().as_secs_f64() > timeout + 3.0 {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err(err("provider call exceeded the connector deadline"));
+        }
+        thread::sleep(Duration::from_millis(10));
+    };
     let written = writer.join().map_err(|_| err("curl writer panicked"))?;
     let (count, raw) = reader.join().map_err(|_| err("curl reader panicked"))??;
     let (_, diagnostics) = errors
         .join()
         .map_err(|_| err("curl stderr reader panicked"))??;
     let _ = fs::remove_dir_all(&directory);
+    if exceeded_stream || count > MAX_STREAM_BYTES as u64 {
+        return Err(err(format!(
+            "provider stream exceeded the {} byte cap (received at least {count})",
+            MAX_STREAM_BYTES
+        )));
+    }
     if written.is_err() {
         return Err(err("failed to deliver provider request"));
     }
@@ -324,10 +358,35 @@ fn post(access: &str, account: &str, body: &[u8], timeout: f64) -> Result<Vec<u8
             String::from_utf8_lossy(&diagnostics).trim()
         )));
     }
-    if count > MAX_RESPONSE_BYTES as u64 {
-        return Err(err("provider response exceeded connector budget"));
-    }
     Ok(raw)
+}
+
+/// Reads an SSE body while publishing the byte count so the caller can abort a
+/// runaway stream instead of waiting for the wall deadline.
+fn read_stream(
+    mut source: impl Read,
+    cap: usize,
+    counter: Arc<AtomicU64>,
+) -> std::io::Result<(u64, Vec<u8>)> {
+    let mut count = 0u64;
+    let mut saved = Vec::new();
+    let mut buffer = [0; 8192];
+    loop {
+        let read = source.read(&mut buffer)?;
+        if read == 0 {
+            break;
+        }
+        count += read as u64;
+        counter.store(count, Ordering::Relaxed);
+        if saved.len() < cap {
+            let take = (cap - saved.len()).min(read);
+            saved.extend_from_slice(&buffer[..take]);
+        }
+        if count > cap as u64 {
+            break;
+        }
+    }
+    Ok((count, saved))
 }
 
 fn private_directory() -> Result<PathBuf, Box<dyn Error>> {
