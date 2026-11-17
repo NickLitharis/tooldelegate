@@ -1,2 +1,7 @@
 /target/
 __pycache__/
+# Raw run trees are retained on disk; committed records, indexes and reports are
+# the reproducible analysis inputs.
+/main/runs/
+/main-[0-9]*/runs/
+

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>Context peak by arm</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">Context peak by arm</text><text x="16" y="46">Mean per-run peak input + output tokens</text>
+<text x="127" y="250" text-anchor="middle">unknown</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<text x="262" y="250" text-anchor="middle">unknown</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<text x="397" y="250" text-anchor="middle">unknown</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<text x="532" y="250" text-anchor="middle">unknown</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg>

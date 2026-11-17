@@ -1,0 +1,3678 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verified CLI benchmark analysis</title><style>body{max-width:1100px;margin:3rem auto;padding:0 1rem;background:#f4f7f8;color:#17324d;font:16px/1.6 system-ui}h1{line-height:1.2}.notice{padding:1rem;border-left:5px solid #b84d39;background:#fff}.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}figure{margin:0;background:white;padding:1rem}img{width:100%;height:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#fff;padding:1rem;font-size:14px}a{color:#17647b}</style><h1>Verified CLI Delegation Benchmark</h1><p class="notice"><strong>EXPLORATORY — NOT CONFIRMATORY</strong>. Missing values are unknown, not zero. No confirmatory conclusions are made.</p><p><a href="report.md">Full Markdown report</a> · <a href="summary.json">Machine-readable analysis</a></p><div class="charts"><figure><img src="tokens.svg" alt="Mean model tokens per run"><figcaption>Mean model tokens per run</figcaption></figure><figure><img src="success.svg" alt="Completed hidden-oracle success rate"><figcaption>Completed hidden-oracle success rate</figcaption></figure><figure><img src="savings-size.svg" alt="Task-level D/A savings versus log input size"><figcaption>Task-level D/A savings versus log input size</figcaption></figure><figure><img src="verification-tax.svg" alt="Verification input tokens, CPU and elapsed time in separate units"><figcaption>Verification input tokens, CPU and elapsed time in separate units</figcaption></figure><figure><img src="context.svg" alt="Mean per-run peak context"><figcaption>Mean per-run peak context</figcaption></figure><figure><img src="efficiency-correctness.svg" alt="Aggregate tokens per success versus correctness"><figcaption>Aggregate tokens per success versus correctness</figcaption></figure><figure><img src="latency.svg" alt="Available mean end-to-end latency; missing measurements remain reported"><figcaption>Available mean end-to-end latency; missing measurements remain reported</figcaption></figure></div><h2>Complete report</h2><pre># Verified CLI Delegation Benchmark
+
+**EXPLORATORY OBSERVATIONAL REPORT — NOT CONFIRMATORY**
+
+## 1. Research question and hypotheses
+
+When does CLI delegation with compact verification feedback reduce model tokens without reducing correctness? H1 tests efficiency and correctness separately. H2 tests size dependence and in-range crossover. H3 isolates raw verification and compression effects. H4 examines invocation-complexity limitations independently. No treatment advantage is assumed.
+
+## 2. Experimental methodology
+
+All supplied runs, including failures and incomplete runs, remain in arm summaries. Paired effects weight each task instance equally, retaining paired repetitions within task clusters. Main and pilot experiments are not inferred from the presence of data. The protocol and margin remain unfrozen.
+
+```json
+{
+  &quot;analysis_config&quot;: {
+    &quot;allow_synthetic&quot;: false,
+    &quot;bootstrap_samples&quot;: 2000,
+    &quot;bootstrap_seed&quot;: 2026,
+    &quot;expected_repetitions&quot;: 3,
+    &quot;expected_tasks&quot;: 48,
+    &quot;margin_justification&quot;: &quot;At most one additional failure per 20 runs (5 percentage points) in a non-safety-critical transformation workflow. Frozen before the main run.&quot;,
+    &quot;minimum_clusters&quot;: 48,
+    &quot;non_inferiority_margin&quot;: 0.05
+  },
+  &quot;decoding&quot;: {
+    &quot;max_output_tokens&quot;: 8192,
+    &quot;reasoning_effort&quot;: &quot;none&quot;
+  },
+  &quot;expected_records&quot;: 576,
+  &quot;matrix_complete&quot;: false,
+  &quot;missing_cells&quot;: [
+    {
+      &quot;arm&quot;: &quot;A&quot;,
+      &quot;repetition&quot;: 1,
+      &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;A&quot;,
+      &quot;repetition&quot;: 1,
+      &quot;task_id&quot;: &quot;aggregation-v0-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;A&quot;,
+      &quot;repetition&quot;: 1,
+      &quot;task_id&quot;: &quot;filesystem-v1-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;A&quot;,
+      &quot;repetition&quot;: 0,
+      &quot;task_id&quot;: &quot;filesystem-v2-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;D&quot;,
+      &quot;repetition&quot;: 1,
+      &quot;task_id&quot;: &quot;sorting-v0-s0&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;C&quot;,
+      &quot;repetition&quot;: 0,
+      &quot;task_id&quot;: &quot;sorting-v0-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;C&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v0-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;D&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v0-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;A&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v1-s1&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;D&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v1-s1&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;A&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v2-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;D&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v2-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;D&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;sorting-v3-s0&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;C&quot;,
+      &quot;repetition&quot;: 0,
+      &quot;task_id&quot;: &quot;sorting-v3-s1&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;B&quot;,
+      &quot;repetition&quot;: 0,
+      &quot;task_id&quot;: &quot;sorting-v3-s2&quot;
+    },
+    {
+      &quot;arm&quot;: &quot;C&quot;,
+      &quot;repetition&quot;: 2,
+      &quot;task_id&quot;: &quot;text-v3-s1&quot;
+    }
+  ],
+  &quot;model&quot;: &quot;gpt-6-luna&quot;,
+  &quot;protocol_violation_runs&quot;: 0,
+  &quot;records&quot;: 560,
+  &quot;unidentified_missing_tasks&quot;: 0
+}
+```
+
+## 3. Dataset description
+
+Inputs and requirements are validated against run manifests. Input byte count is an artifact-size proxy, not final-output size. Expected error tasks are retained; the boundary model controls for expected failure when identifiable. Detailed family, size, complexity and outcome strata are in summary.json.
+
+| Family / arm | Runs | Successes | Exact model tokens |
+|---|---:|---:|---:|
+| aggregation / A | 34 | 9 | 669653 |
+| aggregation / B | 36 | 22 | n/a |
+| aggregation / C | 36 | 19 | n/a |
+| aggregation / D | 36 | 21 | n/a |
+| filesystem / A | 34 | 4 | n/a |
+| filesystem / B | 36 | 26 | n/a |
+| filesystem / C | 36 | 24 | n/a |
+| filesystem / D | 36 | 24 | n/a |
+| sorting / A | 34 | 6 | n/a |
+| sorting / B | 35 | 24 | n/a |
+| sorting / C | 33 | 21 | n/a |
+| sorting / D | 31 | 17 | n/a |
+| text / A | 36 | 4 | n/a |
+| text / B | 36 | 32 | n/a |
+| text / C | 35 | 30 | n/a |
+| text / D | 36 | 33 | 90309 |
+
+## 4. Implementation architecture
+
+Rust dataset generators, immutable originals, fresh Linux bubblewrap workspaces, single-process tool execution, independent feedback verification, bounded certificates, model adapters, host-only JSONL telemetry and a separate hidden oracle. Provider/tokenizer validation and protocol freeze remain prerequisites to a real study.
+
+## 5. Token consumption by arm
+
+Unknown usage is not zero; known totals are lower bounds whenever usage is incomplete.
+
+| Arm | Runs | Exact tokens | Known tokens | Unknown-usage runs |
+|---|---:|---:|---:|---:|
+| A | 138 | n/a | 5014821 | 38 |
+| B | 143 | n/a | 3051104 | 13 |
+| C | 140 | n/a | 2526552 | 16 |
+| D | 139 | n/a | 1357952 | 14 |
+
+![Tokens by arm](tokens.svg)
+
+## 6. Success rates by arm
+
+Success requires completion and a hidden-oracle pass. Unknown oracle outcomes and resource-limited incomplete runs do not count as successes. Raw oracle pass and completeness remain distinct in raw records.
+
+| Arm | Successes / runs | Success rate | Incomplete runs | Unknown oracle |
+|---|---:|---:|---:|---:|
+| A | 23 / 138 | 0.1667 | 46 | 6 |
+| B | 104 / 143 | 0.7273 | 20 | 3 |
+| C | 94 / 140 | 0.6714 | 22 | 4 |
+| D | 95 / 139 | 0.6835 | 16 | 9 |
+
+![Success by arm](success.svg)
+
+## 7. Token efficiency and verification overhead
+
+Efficiency is aggregate tokens across all runs divided by successful runs, never an average of per-run ratios. Zero successes or missing usage makes it undefined. Verification input tokens, CPU, wall time, memory and observed retries are separate costs; CPU is never converted to LLM tokens. See arm metrics in summary.json for measured/missing counts and attributed-input coverage.
+
+| Arm | Tokens / success | Verifier input tokens | Verifier CPU seconds | Verifier elapsed seconds | Estimated monetary cost |
+|---|---:|---:|---:|---:|---:|
+| A | n/a | n/a | 0 | 0 | n/a |
+| B | n/a | n/a | 0 | 0 | n/a |
+| C | n/a | n/a | n/a | 0.9229 | n/a |
+| D | n/a | n/a | n/a | 0.9529 | n/a |
+
+Recorded pricing assumptions (null means unavailable):
+
+```json
+null
+```
+
+![Verification overhead](verification-tax.svg)
+
+![Efficiency versus correctness](efficiency-correctness.svg)
+
+## 8. Token savings against artifact size
+
+Paired relative savings are 1 − treatment/reference; positive values mean fewer treatment tokens. The chart uses ratios of task-level mean tokens, whereas the paired relative-effect estimate averages paired ratios within each task. Zero reference tokens produce an undefined ratio. Negative savings are retained. The exploratory SVD fit uses log token ratio with size × family, complexity and expected-failure interactions when identifiable. No crossover is extrapolated beyond its measured stratum.
+
+![Savings against input size](savings-size.svg)
+
+```json
+{
+  &quot;status&quot;: &quot;not_estimable_incomplete_usage&quot;
+}
+```
+
+## 9. Context-usage comparison
+
+Peak context is the largest reported input-plus-output call for each run. Complete artifacts are not injected into later model calls; arm A retains only chunk metadata. Input reads and raw feedback remain part of actual context. Missing usage prevents exact context-peak conclusions. Tool I/O volume, calls, attempts and retries are reported separately in summary.json.
+
+![Context peaks](context.svg)
+
+## 10. Failure taxonomy and representative traces
+
+Terminations count runs. Taxonomy counts encountered events, not mutually exclusive final failures; retries may recover. Verifier-reported semantic/format errors are marked as such, not treated as oracle truth. Unknown classifications remain unknown, including unclassified execution failures. Trace collection enriches summary-only data; absent trace coverage is not evidence that no errors occurred.
+
+```json
+{
+  &quot;failed_run_examples&quot;: {
+    &quot;adapter_error&quot;: [
+      {
+        &quot;arm&quot;: &quot;D&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794872384099033243-809448&quot;,
+        &quot;task_id&quot;: &quot;aggregation-v3-s1&quot;,
+        &quot;termination&quot;: &quot;adapter_error&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;A&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794872484362192892-809448&quot;,
+        &quot;task_id&quot;: &quot;sorting-v0-s2&quot;,
+        &quot;termination&quot;: &quot;adapter_error&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;A&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794872703206591048-809448&quot;,
+        &quot;task_id&quot;: &quot;text-v2-s2&quot;,
+        &quot;termination&quot;: &quot;adapter_error&quot;
+      }
+    ],
+    &quot;call_limit&quot;: [
+      {
+        &quot;arm&quot;: &quot;B&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794874559996969588-867084&quot;,
+        &quot;task_id&quot;: &quot;sorting-v2-s1&quot;,
+        &quot;termination&quot;: &quot;call_limit&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;A&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794874799593944902-867084&quot;,
+        &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;,
+        &quot;termination&quot;: &quot;call_limit&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;C&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794877654826593336-867084&quot;,
+        &quot;task_id&quot;: &quot;sorting-v3-s1&quot;,
+        &quot;termination&quot;: &quot;call_limit&quot;
+      }
+    ],
+    &quot;finished&quot;: [
+      {
+        &quot;arm&quot;: &quot;B&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794872475052449515-809448&quot;,
+        &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;,
+        &quot;termination&quot;: &quot;finished&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;A&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794872572159323850-809448&quot;,
+        &quot;task_id&quot;: &quot;text-v2-s0&quot;,
+        &quot;termination&quot;: &quot;finished&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;C&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794872599686890975-809448&quot;,
+        &quot;task_id&quot;: &quot;sorting-v1-s0&quot;,
+        &quot;termination&quot;: &quot;finished&quot;
+      }
+    ],
+    &quot;resource_limit&quot;: [
+      {
+        &quot;arm&quot;: &quot;C&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794873926297359863-867085&quot;,
+        &quot;task_id&quot;: &quot;aggregation-v1-s2&quot;,
+        &quot;termination&quot;: &quot;resource_limit&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;B&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794874246797958102-867085&quot;,
+        &quot;task_id&quot;: &quot;aggregation-v2-s1&quot;,
+        &quot;termination&quot;: &quot;resource_limit&quot;
+      },
+      {
+        &quot;arm&quot;: &quot;A&quot;,
+        &quot;oracle_error&quot;: null,
+        &quot;oracle_pass&quot;: false,
+        &quot;run_id&quot;: &quot;1794874554128406730-867085&quot;,
+        &quot;task_id&quot;: &quot;sorting-v0-s1&quot;,
+        &quot;termination&quot;: &quot;resource_limit&quot;
+      }
+    ]
+  },
+  &quot;failure_taxonomy&quot;: {
+    &quot;adapter_transport_failure&quot;: {
+      &quot;events&quot;: 81,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;adapter_transport_failure&quot;,
+            &quot;detail&quot;: &quot;{\&quot;error\&quot;:\&quot;adapter failed, timed out, or exceeded response budget; usage unknown\&quot;,\&quot;raw_adapter_response_bounded\&quot;:\&quot;{\\\&quot;error\\\&quot;:\\\&quot;curl failed: exit status: 28 curl: (3) URL rejected: Malformed input to a URL function\\\\ncurl: (28) Operation timed out after 85002 milliseconds with 1159912 bytes received\\\&quot;}\\n\&quot;,\&quot;stdout_bytes\&quot;:184,\&quot;truncated\&quot;:false}&quot;,
+            &quot;line&quot;: 7
+          },
+          &quot;run_id&quot;: &quot;1794872384099033243-809448&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v3-s1&quot;,
+          &quot;trace&quot;: &quot;main/runs/0000-aggregation-v3-s1-D-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;A&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;adapter_transport_failure&quot;,
+            &quot;detail&quot;: &quot;{\&quot;error\&quot;:\&quot;adapter failed, timed out, or exceeded response budget; usage unknown\&quot;,\&quot;raw_adapter_response_bounded\&quot;:\&quot;{\\\&quot;error\\\&quot;:\\\&quot;curl failed: exit status: 28 curl: (3) URL rejected: Malformed input to a URL function\\\\ncurl: (28) Operation timed out after 85000 milliseconds with 1234758 bytes received\\\&quot;}\\n\&quot;,\&quot;stdout_bytes\&quot;:184,\&quot;truncated\&quot;:false}&quot;,
+            &quot;line&quot;: 6
+          },
+          &quot;run_id&quot;: &quot;1794872484362192892-809448&quot;,
+          &quot;task_id&quot;: &quot;sorting-v0-s2&quot;,
+          &quot;trace&quot;: &quot;main/runs/0002-sorting-v0-s2-A-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;A&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;adapter_transport_failure&quot;,
+            &quot;detail&quot;: &quot;{\&quot;error\&quot;:\&quot;adapter failed, timed out, or exceeded response budget; usage unknown\&quot;,\&quot;raw_adapter_response_bounded\&quot;:\&quot;{\\\&quot;error\\\&quot;:\\\&quot;curl failed: exit status: 28 curl: (3) URL rejected: Malformed input to a URL function\\\\ncurl: (28) Operation timed out after 85000 milliseconds with 1231244 bytes received\\\&quot;}\\n\&quot;,\&quot;stdout_bytes\&quot;:184,\&quot;truncated\&quot;:false}&quot;,
+            &quot;line&quot;: 30
+          },
+          &quot;run_id&quot;: &quot;1794872703206591048-809448&quot;,
+          &quot;task_id&quot;: &quot;text-v2-s2&quot;,
+          &quot;trace&quot;: &quot;main/runs/0011-text-v2-s2-A-r1/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 81,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;argument_construction_failure&quot;: {
+      &quot;events&quot;: 5,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;argument_construction_failure&quot;,
+            &quot;detail&quot;: &quot;invalid command batch&quot;,
+            &quot;line&quot;: 64
+          },
+          &quot;run_id&quot;: &quot;1794873938855186228-867084&quot;,
+          &quot;task_id&quot;: &quot;sorting-v3-s2&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0006-sorting-v3-s2-B-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;argument_construction_failure&quot;,
+            &quot;detail&quot;: &quot;invalid command batch&quot;,
+            &quot;line&quot;: 218
+          },
+          &quot;run_id&quot;: &quot;1794874559996969588-867084&quot;,
+          &quot;task_id&quot;: &quot;sorting-v2-s1&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0025-sorting-v2-s1-B-r2/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;argument_construction_failure&quot;,
+            &quot;detail&quot;: &quot;invalid command batch&quot;,
+            &quot;line&quot;: 111
+          },
+          &quot;run_id&quot;: &quot;1794875301964250541-867084&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0049-aggregation-v0-s1-B-r2/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 5,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;incorrect_transformation_semantics&quot;: {
+      &quot;events&quot;: 7,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;incorrect_transformation_semantics&quot;,
+            &quot;detail&quot;: &quot;PRESERVATION_ERROR&quot;,
+            &quot;line&quot;: 21,
+            &quot;reported_by_verifier_not_oracle&quot;: true
+          },
+          &quot;run_id&quot;: &quot;1794873801051030633-867084&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v1-s0&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0002-filesystem-v1-s0-C-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;incorrect_transformation_semantics&quot;,
+            &quot;detail&quot;: &quot;CONTENT_ERROR&quot;,
+            &quot;line&quot;: 16,
+            &quot;reported_by_verifier_not_oracle&quot;: true
+          },
+          &quot;run_id&quot;: &quot;1794875430275013970-867085&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v1-s1&quot;,
+          &quot;trace&quot;: &quot;main-2/runs/0040-aggregation-v1-s1-C-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;incorrect_transformation_semantics&quot;,
+            &quot;detail&quot;: &quot;CONTENT_ERROR&quot;,
+            &quot;line&quot;: 69,
+            &quot;reported_by_verifier_not_oracle&quot;: true
+          },
+          &quot;run_id&quot;: &quot;1794875430275013970-867085&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v1-s1&quot;,
+          &quot;trace&quot;: &quot;main-2/runs/0040-aggregation-v1-s1-C-r0/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 7,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;model_context_or_output_limit_failure&quot;: {
+      &quot;events&quot;: 8,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;model_context_or_output_limit_failure&quot;,
+            &quot;detail&quot;: &quot;call_limit&quot;
+          },
+          &quot;run_id&quot;: &quot;1794874559996969588-867084&quot;,
+          &quot;task_id&quot;: &quot;sorting-v2-s1&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0025-sorting-v2-s1-B-r2/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;A&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;model_context_or_output_limit_failure&quot;,
+            &quot;detail&quot;: &quot;call_limit&quot;
+          },
+          &quot;run_id&quot;: &quot;1794874799593944902-867084&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0029-filesystem-v2-s0-A-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;model_context_or_output_limit_failure&quot;,
+            &quot;detail&quot;: &quot;call_limit&quot;
+          },
+          &quot;run_id&quot;: &quot;1794877654826593336-867084&quot;,
+          &quot;task_id&quot;: &quot;sorting-v3-s1&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0110-sorting-v3-s1-C-r1/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 8,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;permission_or_safety_rejection&quot;: {
+      &quot;events&quot;: 0,
+      &quot;examples&quot;: [],
+      &quot;known_events&quot;: 0,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;resource_limit_failure&quot;: {
+      &quot;events&quot;: 28,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;resource_limit_failure&quot;,
+            &quot;detail&quot;: &quot;retry budget exhausted&quot;,
+            &quot;line&quot;: 18
+          },
+          &quot;run_id&quot;: &quot;1794872942366952414-809448&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0022-filesystem-v3-s0-D-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;resource_limit_failure&quot;,
+            &quot;detail&quot;: &quot;retry budget exhausted&quot;,
+            &quot;line&quot;: 18
+          },
+          &quot;run_id&quot;: &quot;1794874683183741612-867084&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v3-s2&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0026-filesystem-v3-s2-D-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;resource_limit_failure&quot;,
+            &quot;detail&quot;: &quot;retry budget exhausted&quot;,
+            &quot;line&quot;: 181
+          },
+          &quot;run_id&quot;: &quot;1794875301964250541-867084&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0049-aggregation-v0-s1-B-r2/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 28,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;syntax_or_parsing_failure&quot;: {
+      &quot;events&quot;: 1917,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;syntax_or_parsing_failure&quot;,
+            &quot;detail&quot;: &quot;trailing characters at line 1 column 60&quot;,
+            &quot;line&quot;: 4
+          },
+          &quot;run_id&quot;: &quot;1794872384099033243-809448&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v3-s1&quot;,
+          &quot;trace&quot;: &quot;main/runs/0000-aggregation-v3-s1-D-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;syntax_or_parsing_failure&quot;,
+            &quot;detail&quot;: &quot;trailing characters at line 2 column 1&quot;,
+            &quot;line&quot;: 4
+          },
+          &quot;run_id&quot;: &quot;1794872475052449515-809448&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0001-filesystem-v3-s0-B-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;A&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;syntax_or_parsing_failure&quot;,
+            &quot;detail&quot;: &quot;trailing characters at line 1 column 62&quot;,
+            &quot;line&quot;: 4
+          },
+          &quot;run_id&quot;: &quot;1794872572159323850-809448&quot;,
+          &quot;task_id&quot;: &quot;text-v2-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0003-text-v2-s0-A-r0/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 1917,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;tool_selection_failure&quot;: {
+      &quot;events&quot;: 0,
+      &quot;examples&quot;: [],
+      &quot;known_events&quot;: 0,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;unclassified_action_failure&quot;: {
+      &quot;events&quot;: 15,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_action_failure&quot;,
+            &quot;detail&quot;: &quot;Is a directory (os error 21)&quot;,
+            &quot;line&quot;: 8
+          },
+          &quot;run_id&quot;: &quot;1794874550071554712-867084&quot;,
+          &quot;task_id&quot;: &quot;text-v3-s2&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0024-text-v3-s2-D-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;A&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_action_failure&quot;,
+            &quot;detail&quot;: &quot;No such file or directory (os error 2)&quot;,
+            &quot;line&quot;: 143
+          },
+          &quot;run_id&quot;: &quot;1794874799593944902-867084&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0029-filesystem-v2-s0-A-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;A&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_action_failure&quot;,
+            &quot;detail&quot;: &quot;No such file or directory (os error 2)&quot;,
+            &quot;line&quot;: 156
+          },
+          &quot;run_id&quot;: &quot;1794874799593944902-867084&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;,
+          &quot;trace&quot;: &quot;main-1/runs/0029-filesystem-v2-s0-A-r1/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 15,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;unclassified_execution_failure&quot;: {
+      &quot;events&quot;: 36,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_execution_failure&quot;,
+            &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 1, in &lt;module&gt;\n    import csv,json; f=open(&#39;input.csv&#39;,newline=&#39;&#39;,encoding=&#39;utf-8&#39;); rows=csv.DictReader(f); n=sum(1 for r in rows if r[&#39;group&#39;]==&#39;A&#39; and r[&#39;active&#39;]==&#39;true&#39; and int(r[&#39;value&#39;])&gt;50); open(&#39;output.json&#39;,&#39;w&#39;,encoding=&#39;utf-8&#39;).write(json.dumps({&#39;count&#39;:n}))\n                                                                                                ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&quot;,
+            &quot;tool_log&quot;: &quot;tool-1.json&quot;
+          },
+          &quot;run_id&quot;: &quot;1794872834369865555-809448&quot;,
+          &quot;task_id&quot;: &quot;aggregation-v0-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0014-aggregation-v0-s0-B-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_execution_failure&quot;,
+            &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 1, in &lt;module&gt;\n    import os,pathlib; p=pathlib.Path(&#39;work&#39;); assert os.path.lexists(p/&#39;occupied.txt&#39;); assert not os.path.lexists(p/&#39;result.json&#39;); (p/&#39;result.json&#39;).write_bytes(b&#39;{\&quot;error\&quot;:\&quot;COLLISION\&quot;}&#39;)\n                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n&quot;,
+            &quot;tool_log&quot;: &quot;tool-2.json&quot;
+          },
+          &quot;run_id&quot;: &quot;1794872942366952414-809448&quot;,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0022-filesystem-v3-s0-D-r1/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_execution_failure&quot;,
+            &quot;detail&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 12, in &lt;module&gt;\n    sorted_rows=sorted(rows[1:],key=key)\n  File \&quot;&lt;string&gt;\&quot;, line 10, in key\n    secondary=int(row[1])\nValueError: invalid literal for int() with base 10: &#39;&#39;\n&quot;,
+            &quot;tool_log&quot;: &quot;tool-1.json&quot;
+          },
+          &quot;run_id&quot;: &quot;1794873481434310115-809448&quot;,
+          &quot;task_id&quot;: &quot;sorting-v2-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0037-sorting-v2-s0-D-r0/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 36,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;unclassified_verifier_failure&quot;: {
+      &quot;events&quot;: 18,
+      &quot;examples&quot;: [
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_verifier_failure&quot;,
+            &quot;detail&quot;: &quot;VERIFIER_ERROR&quot;,
+            &quot;line&quot;: 52,
+            &quot;reported_by_verifier_not_oracle&quot;: true
+          },
+          &quot;run_id&quot;: &quot;1794873224837605660-809448&quot;,
+          &quot;task_id&quot;: &quot;sorting-v3-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0031-sorting-v3-s0-C-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_verifier_failure&quot;,
+            &quot;detail&quot;: &quot;VERIFIER_ERROR&quot;,
+            &quot;line&quot;: 77,
+            &quot;reported_by_verifier_not_oracle&quot;: true
+          },
+          &quot;run_id&quot;: &quot;1794873224837605660-809448&quot;,
+          &quot;task_id&quot;: &quot;sorting-v3-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0031-sorting-v3-s0-C-r0/trace.jsonl&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;event&quot;: {
+            &quot;category&quot;: &quot;unclassified_verifier_failure&quot;,
+            &quot;detail&quot;: &quot;VERIFIER_ERROR&quot;,
+            &quot;line&quot;: 12,
+            &quot;reported_by_verifier_not_oracle&quot;: true
+          },
+          &quot;run_id&quot;: &quot;1794873353516192380-809448&quot;,
+          &quot;task_id&quot;: &quot;sorting-v0-s0&quot;,
+          &quot;trace&quot;: &quot;main/runs/0032-sorting-v0-s0-C-r1/trace.jsonl&quot;
+        }
+      ],
+      &quot;known_events&quot;: 18,
+      &quot;unit&quot;: &quot;encountered_events_not_mutually_exclusive_final_run_failures&quot;
+    },
+    &quot;verifier_false_negative&quot;: {
+      &quot;evaluated_runs&quot;: 230,
+      &quot;events&quot;: 0,
+      &quot;unit&quot;: &quot;evaluable_final_verifier_oracle_runs&quot;
+    },
+    &quot;verifier_false_positive&quot;: {
+      &quot;evaluated_runs&quot;: 230,
+      &quot;events&quot;: 0,
+      &quot;unit&quot;: &quot;evaluable_final_verifier_oracle_runs&quot;
+    }
+  },
+  &quot;terminations&quot;: {
+    &quot;adapter_error&quot;: 81,
+    &quot;call_limit&quot;: 8,
+    &quot;finished&quot;: 456,
+    &quot;resource_limit&quot;: 15
+  },
+  &quot;trace_classified_runs&quot;: 560,
+  &quot;verifier_disagreement&quot;: {
+    &quot;evaluated_runs&quot;: 230,
+    &quot;false_negative&quot;: 0,
+    &quot;false_negative_rate&quot;: 0.0,
+    &quot;false_positive&quot;: 0,
+    &quot;false_positive_rate&quot;: 0.0,
+    &quot;oracle_negative_runs&quot;: 41,
+    &quot;oracle_positive_runs&quot;: 189,
+    &quot;tool_arm_runs_without_evaluable_final_pair&quot;: 49
+  }
+}
+```
+
+## 11. Statistical uncertainty
+
+All intervals are exploratory. Percentile bootstrap resamples task instances with replacement and preserves all matched repetitions in each selected cluster; repeated runs are not independent samples. Paired differences are treatment minus reference. Non-inferiority uses a one-sided 95% lower bound and is separate from a two-sided 95% token interval. Too few clusters, missing matrix cells, protocol violations or unknown usage prevent the corresponding support claim. Secondary comparisons are not multiplicity-adjusted and are not confirmatory.
+
+A degenerate bootstrap is not proof of zero failure risk. For all-nonnegative or constant observed task success differences, the success lower bound is also capped by m·0.05^(1/n) − (1−0.05^(1/n)), where m is the minimum observed cluster difference and n is the task count. This conservative unseen-task risk guard shares the task-sampling assumptions; it is not a guarantee outside this dataset. In particular, 48 perfect ties do not establish a five-point margin under this guard.
+
+| Treatment − reference | Task clusters | Mean token difference | Token CI95 | Mean success difference | NI lower bound |
+|---|---:|---:|---|---:|---:|
+| D − A | 48 | n/a | null | 0.5312 | 0.4201 |
+| B − A | 48 | n/a | null | 0.5521 | 0.4410 |
+| C − B | 48 | n/a | null | -0.0694 | -0.1493 |
+| D − C | 48 | n/a | null | -0.0035 | -0.0868 |
+| D − B | 48 | n/a | null | -0.0486 | -0.1076 |
+
+## 12. Threats to validity
+
+- Protocol and margin are not frozen: all inference is exploratory.
+- Bootstrap resamples task instances, retaining all paired repetitions within each cluster; repeated runs are not independent dataset instances.
+- Equal task weighting is used for paired effects; arm summaries include every supplied run, including failures and incomplete runs.
+- Missing usage suppresses exact token comparisons and efficiency. Reported known totals are lower bounds, not imputed zeros.
+- Non-inferiority is separate from token reduction; no-worse-observed clusters use a conservative zero-event risk guard.
+- Related semantic variants at multiple sizes may remain correlated across task clusters; interpret task-instance bootstrap uncertainty conditionally.
+- Input bytes are an artifact-size proxy, not measured final-output bytes.
+- Summary-only data cannot distinguish every tool-selection, argument, parsing or permission error. Consult host traces; do not infer absent errors from unclassified counts.
+- Synthetic cohorts are fixture validation only and cannot support scientific conclusions.
+- The size model includes failed and incomplete paired runs. It estimates token cost, not correctness-adjusted efficiency; per-task success rates accompany its points.
+
+## 13. Boundary conditions and negative findings
+
+These observations do not discard negative results. Point estimates are not declarations of statistical significance. Synthetic observations validate report logic only.
+
+- C versus B: success decreased at the point estimate. Token savings do not compensate for correctness loss.
+- D versus C: success decreased at the point estimate. Token savings do not compensate for correctness loss.
+- D versus B: success decreased at the point estimate. Token savings do not compensate for correctness loss.
+- Success non-inferiority is not established; lower token consumption alone cannot establish H1.
+- Incomplete usage prevents exact token-efficiency and paired-token conclusions for affected comparisons.
+
+![Latency](latency.svg)
+
+## 14. Conclusions and reproducibility
+
+Token reduction alone is insufficient to establish an overall improvement. Hypotheses are evaluated independently; the report can show no advantage or no established non-inferiority. Synthetic fixtures support none of the scientific hypotheses.
+
+```json
+{
+  &quot;H1&quot;: &quot;not_established_protocol_incomplete&quot;,
+  &quot;H2&quot;: {
+    &quot;boundary_status&quot;: &quot;not_estimable_incomplete_usage&quot;,
+    &quot;status&quot;: &quot;exploratory_size_interactions_only&quot;,
+    &quot;warning&quot;: &quot;Size trends and crossovers are stratum-specific; no universal advantage or out-of-range crossover is asserted.&quot;
+  },
+  &quot;H3&quot;: {
+    &quot;compression_delta&quot;: {
+      &quot;ci95&quot;: null,
+      &quot;estimate&quot;: null,
+      &quot;reason&quot;: &quot;incomplete_usage; known lower bounds not substituted for totals&quot;
+    },
+    &quot;compression_reduces_tokens&quot;: false,
+    &quot;raw_verification_delta&quot;: {
+      &quot;ci95&quot;: null,
+      &quot;estimate&quot;: null,
+      &quot;reason&quot;: &quot;incomplete_usage; known lower bounds not substituted for totals&quot;
+    },
+    &quot;raw_verification_increases_tokens&quot;: false,
+    &quot;status&quot;: &quot;exploratory_only&quot;,
+    &quot;verification_input_attribution_complete&quot;: false,
+    &quot;warning&quot;: &quot;Execution CPU and latency are not LLM tokens. Attribution, runtime, resources and observed retries are separate quantities; compression is not assumed beneficial.&quot;
+  },
+  &quot;H4&quot;: {
+    &quot;invocation_measured_runs&quot;: 422,
+    &quot;invocation_relationships&quot;: {
+      &quot;log_argument_bytes_vs_D_A_token_savings&quot;: {
+        &quot;ci95&quot;: [
+          -0.5073526656769433,
+          0.059180670998618165
+        ],
+        &quot;estimate&quot;: -0.17288051915824487,
+        &quot;inference_eligible&quot;: false,
+        &quot;status&quot;: &quot;observational_correlation_not_causation&quot;,
+        &quot;task_clusters&quot;: 25,
+        &quot;valid_bootstraps&quot;: 2000
+      },
+      &quot;log_argument_bytes_vs_interface_errors&quot;: {
+        &quot;ci95&quot;: [
+          0.14096597894893748,
+          0.3891718453226667
+        ],
+        &quot;estimate&quot;: 0.2303191180975195,
+        &quot;inference_eligible&quot;: true,
+        &quot;status&quot;: &quot;observational_correlation_not_causation&quot;,
+        &quot;task_clusters&quot;: 48,
+        &quot;valid_bootstraps&quot;: 2000
+      },
+      &quot;log_argument_bytes_vs_success&quot;: {
+        &quot;ci95&quot;: [
+          -0.03724606355777729,
+          0.43825139879859704
+        ],
+        &quot;estimate&quot;: 0.24213675926606854,
+        &quot;inference_eligible&quot;: true,
+        &quot;status&quot;: &quot;observational_correlation_not_causation&quot;,
+        &quot;task_clusters&quot;: 48,
+        &quot;valid_bootstraps&quot;: 2000
+      },
+      &quot;observed_tool_task_arm_groups&quot;: 144,
+      &quot;paired_D_A_points&quot;: [
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 390.0,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;relative_token_savings_D_A&quot;: 0.31845487035206455,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 461.0,
+          &quot;mean_interface_errors&quot;: 1.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;relative_token_savings_D_A&quot;: 0.6033072760072159,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 488.0,
+          &quot;mean_interface_errors&quot;: 2.0,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;relative_token_savings_D_A&quot;: 0.5668284846156533,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 383.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.19309181578175416,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 566.0,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;relative_token_savings_D_A&quot;: 0.9469038840846585,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 472.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.0624335005319957,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 376.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.7020411059341075,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 189.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.5760848846813648,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 229.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.6794422106253744,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 403.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.572988068037573,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 401.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;relative_token_savings_D_A&quot;: 0.9689241519691196,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 299.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.9801488033835362,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;filesystem-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 523.0,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;relative_token_savings_D_A&quot;: 0.08449396471680592,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 590.6666666666666,
+          &quot;mean_interface_errors&quot;: 0.6666666666666666,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;relative_token_savings_D_A&quot;: 0.6754455074094916,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 519.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.357001582278481,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 383.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.9512586811297044,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 376.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.5759004337167641,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 401.5,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.8631326744534291,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 745.3333333333334,
+          &quot;mean_interface_errors&quot;: 1.3333333333333333,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;relative_token_savings_D_A&quot;: -0.2841812075038912,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;sorting-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 526.5,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.5,
+          &quot;relative_token_savings_D_A&quot;: -31.595086915790567,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 520.3333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.9606037758274247,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 137.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.6207028509471267,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 211.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.5229830803863191,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 212.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.7805788356240921,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 514.6666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;relative_token_savings_D_A&quot;: 0.7983559566958046,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v3-s0&quot;
+        }
+      ],
+      &quot;status&quot;: &quot;secondary_observational_only&quot;,
+      &quot;task_arm_points&quot;: [
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 467.0,
+          &quot;mean_interface_errors&quot;: 0.6666666666666666,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 415.0,
+          &quot;mean_interface_errors&quot;: 0.6666666666666666,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 390.0,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 142.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.6666666666666666,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 215.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 461.0,
+          &quot;mean_interface_errors&quot;: 1.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;aggregation-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 270.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 294.0,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;aggregation-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 488.0,
+          &quot;mean_interface_errors&quot;: 2.0,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 369.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 260.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 383.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 260.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 513.6666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 566.0,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 292.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 141.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 254.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 136.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 198.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 150.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 336.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 139.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 472.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 291.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 355.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 172.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 58.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 337.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 643.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 370.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 369.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 244.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 397.0,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;aggregation-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 502.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;aggregation-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;aggregation&quot;,
+          &quot;mean_argument_bytes&quot;: 376.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;aggregation-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 229.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 220.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 189.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 263.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 219.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;filesystem-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 229.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 208.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 110.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;filesystem-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 139.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 198.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;filesystem-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 335.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 403.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 356.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 296.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 440.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 334.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 299.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 325.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 292.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 382.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 401.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;filesystem-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 293.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 377.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 269.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 339.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 2.6666666666666665,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 296.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;filesystem-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 299.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;filesystem-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 295.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 343.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 523.0,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 178.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 386.0,
+          &quot;mean_interface_errors&quot;: 0.6666666666666666,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 590.6666666666666,
+          &quot;mean_interface_errors&quot;: 0.6666666666666666,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 292.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 551.3333333333334,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;filesystem&quot;,
+          &quot;mean_argument_bytes&quot;: 340.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;filesystem-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 376.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 493.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 519.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 382.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 418.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 383.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 259.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 0.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;sorting-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 223.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.5,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 468.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 169.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 376.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 393.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 349.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 401.5,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 380.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 418.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 392.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;sorting-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 617.6666666666666,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 709.3333333333334,
+          &quot;mean_interface_errors&quot;: 1.0,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 745.3333333333334,
+          &quot;mean_interface_errors&quot;: 1.3333333333333333,
+          &quot;mean_tool_requests&quot;: 2.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;sorting-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 242.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 363.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 0.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;sorting-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 572.6666666666666,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.6666666666666667,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 347.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 0.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;sorting-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 403.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 460.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 526.5,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.5,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 313.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 307.5,
+          &quot;mean_interface_errors&quot;: 0.5,
+          &quot;mean_tool_requests&quot;: 0.5,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 217.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.3333333333333333,
+          &quot;task_id&quot;: &quot;sorting-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 400.0,
+          &quot;mean_interface_errors&quot;: 0.5,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;sorting-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 665.3333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;sorting&quot;,
+          &quot;mean_argument_bytes&quot;: 520.3333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;sorting-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 137.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 141.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 139.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v0-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 219.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 266.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 211.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v1-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 190.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 207.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 206.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v1-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 142.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 214.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 227.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;simple&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v1-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 215.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 143.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 212.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 207.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 190.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 217.33333333333334,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v2-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 240.66666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 197.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 192.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v2-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 434.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.3333333333333333,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 21.333333333333332,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.6666666666666666,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.0,
+          &quot;task_id&quot;: &quot;text-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 514.6666666666666,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v3-s0&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 372.6666666666667,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 131.5,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 0.5,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.5,
+          &quot;task_id&quot;: &quot;text-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 376.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v3-s1&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;B&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 307.0,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 0.6666666666666666,
+          &quot;task_id&quot;: &quot;text-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;C&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 443.0,
+          &quot;mean_interface_errors&quot;: 0.0,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v3-s2&quot;
+        },
+        {
+          &quot;arm&quot;: &quot;D&quot;,
+          &quot;family&quot;: &quot;text&quot;,
+          &quot;mean_argument_bytes&quot;: 414.3333333333333,
+          &quot;mean_interface_errors&quot;: 0.3333333333333333,
+          &quot;mean_tool_requests&quot;: 1.0,
+          &quot;semantic_complexity&quot;: &quot;multi-step&quot;,
+          &quot;success_rate&quot;: 1.0,
+          &quot;task_id&quot;: &quot;text-v3-s2&quot;
+        }
+      ],
+      &quot;unmeasured_tool_task_arm_groups&quot;: 0,
+      &quot;warning&quot;: &quot;Correlations use log1p serialized argv JSON bytes and bootstrap whole tasks, retaining their arms and repetitions. Missing matrix or trace data limit the available-data summaries. Invocation choices are model-dependent and confounded by difficulty and repairs. No causal complexity penalty is established.&quot;
+    },
+    &quot;semantic_complexity_strata&quot;: {
+      &quot;multi-step / A&quot;: {
+        &quot;incomplete_runs&quot;: 26,
+        &quot;known_total_tokens&quot;: 3400296.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 52.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 52.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 525824.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 53248.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 178.232510247,
+            &quot;maximum&quot;: 178.232510247,
+            &quot;mean&quot;: 43.795130150474364,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 3363967.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 36329.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 1156695.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 1156695.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 13.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 13.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 78,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: null,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 78
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 5,
+        &quot;runs&quot;: 78,
+        &quot;success_rate&quot;: 0.19230769230769232,
+        &quot;successes&quot;: 15,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 20
+      },
+      &quot;multi-step / B&quot;: {
+        &quot;incomplete_runs&quot;: 15,
+        &quot;known_total_tokens&quot;: 2680336.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 76.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 76.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 836608.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 10790.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 221.110599625,
+            &quot;maximum&quot;: 221.110599625,
+            &quot;mean&quot;: 40.282633085987484,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 79,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 2595476.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 25551.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 25551.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 80,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 84860.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 9.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 9.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 137131.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 137131.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 79,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 8.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 8.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 81.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 81.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 14498.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 14498.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 79,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 80,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: null,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 80
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 2,
+        &quot;runs&quot;: 80,
+        &quot;success_rate&quot;: 0.7,
+        &quot;successes&quot;: 56,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 8
+      },
+      &quot;multi-step / C&quot;: {
+        &quot;incomplete_runs&quot;: 15,
+        &quot;known_total_tokens&quot;: 2334782.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 74.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 74.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 606336.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 12350.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 210.269956922,
+            &quot;maximum&quot;: 210.269956922,
+            &quot;mean&quot;: 39.69206222931646,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 2256624.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 25915.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 25915.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 79,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 78158.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 10.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 10.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 8.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 8.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 146118.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 146118.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 6.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 6.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 76.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 76.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 4194.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 4194.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 78,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.181987481,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.513374276,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.513374276
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: 53387264.0,
+            &quot;maximum&quot;: 53387264.0,
+            &quot;mean&quot;: 52213429.67741936,
+            &quot;measured_runs&quot;: 62,
+            &quot;missing_runs&quot;: 17
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 2,
+        &quot;runs&quot;: 79,
+        &quot;success_rate&quot;: 0.6962025316455697,
+        &quot;successes&quot;: 55,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 9
+      },
+      &quot;multi-step / D&quot;: {
+        &quot;incomplete_runs&quot;: 14,
+        &quot;known_total_tokens&quot;: 851778.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 72.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 72.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 185344.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 8502.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 253.491299255,
+            &quot;maximum&quot;: 253.491299255,
+            &quot;mean&quot;: 31.640405342784813,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 4,
+            &quot;missing_runs&quot;: 75,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 804024.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 27490.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 27490.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 79,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 47754.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 7.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 7.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 5.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 5.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 76333.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 76333.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 4,
+            &quot;missing_runs&quot;: 75,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 7.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 7.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 72.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 72.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 1664.0,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 1664.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 4,
+            &quot;missing_runs&quot;: 75,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.1777964229999999,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.5117456690000001,
+            &quot;measured_runs&quot;: 79,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.5117456690000001
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: 53387264.0,
+            &quot;maximum&quot;: 53387264.0,
+            &quot;mean&quot;: 51995374.93333333,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 19
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 5,
+        &quot;runs&quot;: 79,
+        &quot;success_rate&quot;: 0.6835443037974683,
+        &quot;successes&quot;: 54,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 13
+      },
+      &quot;simple / A&quot;: {
+        &quot;incomplete_runs&quot;: 20,
+        &quot;known_total_tokens&quot;: 1614525.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 40.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 40.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 255488.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 38565.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 295.150903813,
+            &quot;maximum&quot;: 295.150903813,
+            &quot;mean&quot;: 48.668542816000006,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 1559588.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 54937.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 828817.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 828817.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: null,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 60
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 1,
+        &quot;runs&quot;: 60,
+        &quot;success_rate&quot;: 0.13333333333333333,
+        &quot;successes&quot;: 8,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 18
+      },
+      &quot;simple / B&quot;: {
+        &quot;incomplete_runs&quot;: 5,
+        &quot;known_total_tokens&quot;: 370768.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 62.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 62.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 61056.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 7634.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 125.246839295,
+            &quot;maximum&quot;: 125.246839295,
+            &quot;mean&quot;: 19.510090497746038,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 2,
+            &quot;missing_runs&quot;: 61,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 349364.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 16658.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 16658.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 63,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 21404.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 4.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 4.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 96102.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 96102.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 2,
+            &quot;missing_runs&quot;: 61,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 5.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 5.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 62.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 62.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 3007.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 3007.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 2,
+            &quot;missing_runs&quot;: 61,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 63,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.0
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: null,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 63
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 1,
+        &quot;runs&quot;: 63,
+        &quot;success_rate&quot;: 0.7619047619047619,
+        &quot;successes&quot;: 48,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 5
+      },
+      &quot;simple / C&quot;: {
+        &quot;incomplete_runs&quot;: 7,
+        &quot;known_total_tokens&quot;: 191770.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 64.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 64.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 1408.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 6251.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 105.092088443,
+            &quot;maximum&quot;: 105.092088443,
+            &quot;mean&quot;: 20.219105209081974,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 172718.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 17081.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 17081.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 61,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 19052.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 8.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 8.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 7.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 7.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 77891.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 77891.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 11.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 11.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 64.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 64.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 6985.0,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 6985.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.14369833200000004,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.4095650770000002,
+            &quot;measured_runs&quot;: 61,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.4095650770000002
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: 53198848.0,
+            &quot;maximum&quot;: 53198848.0,
+            &quot;mean&quot;: 52408168.2962963,
+            &quot;measured_runs&quot;: 54,
+            &quot;missing_runs&quot;: 7
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 2,
+        &quot;runs&quot;: 61,
+        &quot;success_rate&quot;: 0.639344262295082,
+        &quot;successes&quot;: 39,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 7
+      },
+      &quot;simple / D&quot;: {
+        &quot;incomplete_runs&quot;: 2,
+        &quot;known_total_tokens&quot;: 506174.0,
+        &quot;mean_tokens&quot;: null,
+        &quot;metrics&quot;: {
+          &quot;attempts&quot;: {
+            &quot;known_sum&quot;: 71.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 71.0
+          },
+          &quot;cached_input_tokens&quot;: {
+            &quot;known_sum&quot;: 95232.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;context_peak&quot;: {
+            &quot;known_maximum&quot;: 12536.0,
+            &quot;maximum&quot;: null,
+            &quot;mean&quot;: null,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;end_to_end_seconds&quot;: {
+            &quot;known_maximum&quot;: 142.090210485,
+            &quot;maximum&quot;: 142.090210485,
+            &quot;mean&quot;: 15.105762017766668,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0
+          },
+          &quot;feedback_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 59,
+            &quot;sum&quot;: null
+          },
+          &quot;input_tokens&quot;: {
+            &quot;known_sum&quot;: 484377.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;invocation_argument_bytes&quot;: {
+            &quot;known_sum&quot;: 18964.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 18964.0
+          },
+          &quot;monetary_cost&quot;: {
+            &quot;known_sum&quot;: -0.0,
+            &quot;measured_runs&quot;: 0,
+            &quot;missing_runs&quot;: 60,
+            &quot;sum&quot;: null
+          },
+          &quot;output_tokens&quot;: {
+            &quot;known_sum&quot;: 21797.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;retries&quot;: {
+            &quot;known_sum&quot;: 13.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 13.0
+          },
+          &quot;retries_after_negative_verification&quot;: {
+            &quot;known_sum&quot;: 13.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 13.0
+          },
+          &quot;returned_feedback_bytes&quot;: {
+            &quot;known_sum&quot;: 94773.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 94773.0
+          },
+          &quot;schema_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 59,
+            &quot;sum&quot;: null
+          },
+          &quot;tool_errors&quot;: {
+            &quot;known_sum&quot;: 19.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 19.0
+          },
+          &quot;tool_invocations&quot;: {
+            &quot;known_sum&quot;: 71.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 71.0
+          },
+          &quot;tool_output_bytes&quot;: {
+            &quot;known_sum&quot;: 11723.0,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 11723.0
+          },
+          &quot;verification_input_tokens&quot;: {
+            &quot;known_sum&quot;: 0.0,
+            &quot;measured_runs&quot;: 1,
+            &quot;missing_runs&quot;: 59,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_cpu_seconds&quot;: {
+            &quot;known_sum&quot;: 0.140874903,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: null
+          },
+          &quot;verifier_elapsed_seconds&quot;: {
+            &quot;known_sum&quot;: 0.441180087,
+            &quot;measured_runs&quot;: 60,
+            &quot;missing_runs&quot;: 0,
+            &quot;sum&quot;: 0.441180087
+          },
+          &quot;verifier_peak_rss_bytes_max&quot;: {
+            &quot;known_maximum&quot;: 53387264.0,
+            &quot;maximum&quot;: 53387264.0,
+            &quot;mean&quot;: 52109615.40740741,
+            &quot;measured_runs&quot;: 54,
+            &quot;missing_runs&quot;: 6
+          }
+        },
+        &quot;oracle_unknown_runs&quot;: 4,
+        &quot;runs&quot;: 60,
+        &quot;success_rate&quot;: 0.6833333333333333,
+        &quot;successes&quot;: 41,
+        &quot;token_efficiency&quot;: null,
+        &quot;token_efficiency_reason&quot;: &quot;incomplete_usage&quot;,
+        &quot;total_tokens&quot;: null,
+        &quot;usage_incomplete_runs&quot;: 1
+      }
+    },
+    &quot;status&quot;: &quot;secondary_exploratory_only&quot;,
+    &quot;warning&quot;: &quot;Task semantic complexity is not measured CLI invocation complexity. Collect host traces to obtain invocation count/argument volume; no causal claim follows from these observational strata.&quot;
+  }
+}
+```
+
+Regenerate from the repository root, preserving Cargo.lock:
+
+```sh
+cargo run --locked -- analyze REPORT_DIRECTORY/records.jsonl NEW_OUTPUT REPORT_DIRECTORY/config.json
+```
+
+The report bundles source records, normalized analysis settings, summary.json and seven SVGs. Source hashes are in summary.json. Keep original run directories for full prompts, provider payloads, tool output and environment evidence. This report contains no invented missing values and no claim that the main experiment has been run.
+</pre></html>

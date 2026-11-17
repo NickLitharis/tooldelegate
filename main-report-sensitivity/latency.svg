@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 320"><title>End-to-end latency by arm</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">End-to-end latency by arm</text><text x="16" y="46">Available mean elapsed seconds / run; see missing counts</text>
+<rect x="92" y="60" width="70" height="210" fill="#237891"/><text x="127" y="50" text-anchor="middle">45.9140</text>
+<text x="127" y="293" text-anchor="middle">A</text>
+<rect x="227" y="127.61360677132458" width="70" height="142.38639322867542" fill="#237891"/><text x="262" y="117.61360677132458" text-anchor="middle">31.1311</text>
+<text x="262" y="293" text-anchor="middle">B</text>
+<rect x="362" y="127.26452159739426" width="70" height="142.73547840260574" fill="#237891"/><text x="397" y="117.26452159739426" text-anchor="middle">31.2074</text>
+<text x="397" y="293" text-anchor="middle">C</text>
+<rect x="497" y="157.9282843298806" width="70" height="112.0717156701194" fill="#237891"/><text x="532" y="147.9282843298806" text-anchor="middle">24.5031</text>
+<text x="532" y="293" text-anchor="middle">D</text>
+<path d="M65 60V270H620" fill="none" stroke="#9aaeb8"/></svg>

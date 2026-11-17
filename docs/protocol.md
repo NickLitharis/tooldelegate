@@ -35,6 +35,7 @@ A direct generation (`put` chunks), B CLI with bounded raw tool output, C CLI wi
 - Randomization: SplitMix64 Fisher–Yates, seed 42, independent of dataset generation.
 - `plan-runs dataset main-plan.json 42 3` creates the plan; `run-plan dataset main-plan.json main configs/run.luna.json configs/connector.luna.json` executes it.
 - The executor creates fresh run directories, locks the configuration in `main/protocol.json`, resumes from `main/index.jsonl`, never overwrites evidence, and stops on quota, setup errors or three consecutive adapter failures. Quota-blocked attempts are retried later and are never scored.
+- Operational deviation: after 54 sequential runs, the remaining 522 cells were executed as four disjoint shards of the same frozen plan (`main-1` … `main-4`) to reduce wall time. Sharding preserves the frozen seed and cell assignment; no cell was duplicated, and shard membership is not an analysis variable. Concurrent provider load is a recorded threat, not a treatment condition.
 
 ## Analysis
 

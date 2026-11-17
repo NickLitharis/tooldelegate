@@ -221,3 +221,48 @@ pub fn collect(roots: &[PathBuf], destination: &Path) -> Result<()> {
     }
     Ok(())
 }
+
+/// Categories used by the frozen moderation sensitivity analysis.
+fn adapter_failure_category(detail: &str) -> &'static str {
+    if detail.contains("usage_limit_reached") {
+        "provider_quota_rejection"
+    } else if detail.contains("invalid_prompt") || detail.contains("violating our usage policy") {
+        "provider_content_rejection"
+    } else if detail.contains("timed out")
+        || detail.contains("adapter failed")
+        || detail.contains("curl failed")
+    {
+        "adapter_transport_failure"
+    } else {
+        "unclassified_adapter_failure"
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::adapter_failure_category;
+
+    #[test]
+    fn adapter_failures_are_classified_for_sensitivity() {
+        assert_eq!(
+            adapter_failure_category("provider rejected the request: usage_limit_reached: x"),
+            "provider_quota_rejection"
+        );
+        assert_eq!(
+            adapter_failure_category("provider reported failure: invalid_prompt: flagged"),
+            "provider_content_rejection"
+        );
+        assert_eq!(
+            adapter_failure_category("curl failed: exit status: 28 Operation timed out"),
+            "adapter_transport_failure"
+        );
+        assert_eq!(
+            adapter_failure_category("adapter failed, timed out, or exceeded response budget"),
+            "adapter_transport_failure"
+        );
+        assert_eq!(
+            adapter_failure_category("something else"),
+            "unclassified_adapter_failure"
+        );
+    }
+}

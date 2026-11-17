@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 640 340"><title>D versus A: token savings and input size</title><rect width="100%" height="100%" fill="#fff"/><style>text{font-family:system-ui,sans-serif;fill:#17324d;font-size:12px}.title{font-weight:650;font-size:16px}</style><text class="title" x="16" y="25">D versus A: token savings and input size</text><text x="16" y="47">Task-level relative savings (%)</text><text x="320" y="326" text-anchor="middle">log10(input bytes), an artifact-size proxy</text>
+<path d="M80 60V275H610M80 71.31864188136598H610" fill="none" stroke="#9aaeb8"/><text x="80" y="297">2.1461</text><text x="600" y="297" text-anchor="end">4.7080</text><text x="10" y="75">98.0149</text><text x="10" y="275">-3159.5087</text>
+<circle cx="80" cy="69.26568596876854" r="5" fill="#237891" opacity="0.8"><title>aggregation-v0-s0 / aggregation: 2.1461, 31.8455</title></circle>
+<circle cx="342.19910791523597" cy="67.42935220580603" r="5" fill="#237891" opacity="0.8"><title>aggregation-v0-s1 / aggregation: 3.4379, 60.3307</title></circle>
+<circle cx="424.65915439138956" cy="67.66451692597164" r="5" fill="#237891" opacity="0.8"><title>aggregation-v0-s2 / aggregation: 3.8442, 56.6828</title></circle>
+<circle cx="80" cy="70.07385330443174" r="5" fill="#237891" opacity="0.8"><title>aggregation-v1-s0 / aggregation: 2.1461, 19.3092</title></circle>
+<circle cx="342.19910791523597" cy="65.21431719214405" r="5" fill="#237891" opacity="0.8"><title>aggregation-v1-s1 / aggregation: 3.4379, 94.6904</title></circle>
+<circle cx="342.19910791523597" cy="70.9161571464972" r="5" fill="#237891" opacity="0.8"><title>aggregation-v2-s1 / aggregation: 3.4379, 6.2434</title></circle>
+<circle cx="424.65915439138956" cy="66.79285322653868" r="5" fill="#237891" opacity="0.8"><title>aggregation-v3-s2 / aggregation: 3.8442, 70.2041</title></circle>
+<circle cx="105.98683748426569" cy="67.6048444793758" r="5" fill="#237891" opacity="0.8"><title>filesystem-v0-s0 / filesystem: 2.2742, 57.6085</title></circle>
+<circle cx="361.65689454839895" cy="66.93853960178848" r="5" fill="#237891" opacity="0.8"><title>filesystem-v0-s1 / filesystem: 3.5338, 67.9442</title></circle>
+<circle cx="105.98683748426569" cy="67.6248084636982" r="5" fill="#237891" opacity="0.8"><title>filesystem-v1-s0 / filesystem: 2.2742, 57.2988</title></circle>
+<circle cx="259.5255443034307" cy="65.0723610050699" r="5" fill="#237891" opacity="0.8"><title>filesystem-v2-s0 / filesystem: 3.0306, 96.8924</title></circle>
+<circle cx="600" cy="65" r="5" fill="#237891" opacity="0.8"><title>filesystem-v2-s2 / filesystem: 4.7080, 98.0149</title></circle>
+<circle cx="116.9924921392159" cy="70.77394182935421" r="5" fill="#237891" opacity="0.8"><title>filesystem-v3-s0 / filesystem: 2.3284, 8.4494</title></circle>
+<circle cx="362.29930283692863" cy="66.96430480829602" r="5" fill="#237891" opacity="0.8"><title>filesystem-v3-s1 / filesystem: 3.5369, 67.5446</title></circle>
+<circle cx="187.69148965210212" cy="69.01719016126827" r="5" fill="#237891" opacity="0.8"><title>sorting-v0-s0 / sorting: 2.6767, 35.7002</title></circle>
+<circle cx="452.9751609896977" cy="65.1862434926214" r="5" fill="#237891" opacity="0.8"><title>sorting-v0-s1 / sorting: 3.9837, 95.1259</title></circle>
+<circle cx="193.09016881858471" cy="67.60603356371274" r="5" fill="#237891" opacity="0.8"><title>sorting-v1-s0 / sorting: 2.7033, 57.5900</title></circle>
+<circle cx="457.1491333033264" cy="65.75435792045118" r="5" fill="#237891" opacity="0.8"><title>sorting-v1-s1 / sorting: 4.0042, 86.3133</title></circle>
+<circle cx="193.09016881858471" cy="73.15064868832488" r="5" fill="#b84d39" opacity="0.8"><title>sorting-v2-s0 / sorting: 2.7033, -28.4181</title></circle>
+<circle cx="216.01616692306905" cy="275" r="5" fill="#b84d39" opacity="0.8"><title>sorting-v3-s0 / sorting: 2.8162, -3159.5087</title></circle>
+<circle cx="562.6047597881986" cy="65.12599926588919" r="5" fill="#237891" opacity="0.8"><title>sorting-v3-s2 / sorting: 4.5238, 96.0604</title></circle>
+<circle cx="244.32029500687648" cy="67.31720963318202" r="5" fill="#237891" opacity="0.8"><title>text-v0-s0 / text: 2.9557, 62.0703</title></circle>
+<circle cx="244.32029500687648" cy="67.9471713622292" r="5" fill="#237891" opacity="0.8"><title>text-v1-s0 / text: 2.9557, 52.2983</title></circle>
+<circle cx="244.32029500687648" cy="66.2865507280064" r="5" fill="#237891" opacity="0.8"><title>text-v2-s0 / text: 2.9557, 78.0579</title></circle>
+<circle cx="244.51531914664116" cy="66.17194847440359" r="5" fill="#237891" opacity="0.8"><title>text-v3-s0 / text: 2.9566, 79.8356</title></circle>
+</svg>
