@@ -1,0 +1,19 @@
+{
+  "after": {
+    "input.csv": "f8c3ba425d00693c543f462a9b6bec0789dba630f22a47a3217a73be931ef2ca"
+  },
+  "after_error": null,
+  "before": {
+    "input.csv": "f8c3ba425d00693c543f462a9b6bec0789dba630f22a47a3217a73be931ef2ca"
+  },
+  "elapsed_seconds": 0.048250649,
+  "resource_limited": false,
+  "status": 1,
+  "stderr_bounded": "Traceback (most recent call last):\n  File \"<string>\", line 10, in <module>\n    rows.sort(key=key)\n    ~~~~~~~~~^^^^^^^^^\n  File \"<string>\", line 8, in key\n    secondary=int(row[1])\nValueError: invalid literal for int() with base 10: ''\n",
+  "stderr_bytes": 236,
+  "stderr_truncated": false,
+  "stdout_bounded": "",
+  "stdout_bytes": 0,
+  "stdout_truncated": false,
+  "timed_out": false
+}

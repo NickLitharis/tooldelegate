@@ -1,0 +1,19 @@
+{
+  "after": {
+    "input.csv": "83ed85422150743afbea75fd0f3c3acb098daa1a307b67171e97e7ce3fc91212"
+  },
+  "after_error": null,
+  "before": {
+    "input.csv": "83ed85422150743afbea75fd0f3c3acb098daa1a307b67171e97e7ce3fc91212"
+  },
+  "elapsed_seconds": 0.026707565,
+  "resource_limited": false,
+  "status": 0,
+  "stderr_bounded": "",
+  "stderr_bytes": 0,
+  "stderr_truncated": false,
+  "stdout_bounded": "11 [['id', 'value', 'secondary', 'payload'], ['0', '', '3', 'row 0, quoted \"payload\"\\nseed=2026'], ['1', 'éclair', '4', 'row 1, quoted \"payload\"\\nseed=2026'], ['2', 'zebra', '2', 'row 2, quoted \"payload\"\\nseed=2026'], ['3', 'alpha', '3', 'row 3, quoted \"payload\"\\nseed=2026'], ['4', 'zebra', '1', 'row 4, quoted \"payload\"\\nseed=2026']]\n",
+  "stdout_bytes": 337,
+  "stdout_truncated": false,
+  "timed_out": false
+}

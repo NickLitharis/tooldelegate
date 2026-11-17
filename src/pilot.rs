@@ -439,7 +439,7 @@ fn execute_plan(
     let connector_value = read_json(connector_path)?;
     let connector = Connector::from_config(
         &connector_value,
-        std::time::Duration::from_secs(config.task_wall_seconds.min(90)),
+        std::time::Duration::from_secs(config.task_wall_seconds.min(120)),
     )?;
     let protocol = json!({"config":config_value,"connector":connector_value});
     let protocol_path = root.join("protocol.json");

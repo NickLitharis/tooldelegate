@@ -129,7 +129,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             let connector: serde_json::Value = serde_json::from_slice(&fs::read(&args[6])?)?;
             Box::new(model_adapter::Connector::from_config(
                 &connector,
-                std::time::Duration::from_secs(config.task_wall_seconds.min(90)),
+                std::time::Duration::from_secs(config.task_wall_seconds.min(120)),
             )?)
         };
         let summary = orchestrator::run(

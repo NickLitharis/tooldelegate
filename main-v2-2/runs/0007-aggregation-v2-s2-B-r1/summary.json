@@ -1,0 +1,101 @@
+{
+  "arm": "B",
+  "complete": true,
+  "config": {
+    "decoding": {
+      "max_output_tokens": 4096,
+      "reasoning_effort": "none"
+    },
+    "feedback_bytes": 65536,
+    "max_calls": 64,
+    "max_commands_per_attempt": 10,
+    "max_context_tokens": 400000,
+    "max_input_tokens": 300000,
+    "max_output_tokens": 128000,
+    "max_request_bytes": 16777216,
+    "max_retries": 1,
+    "model": "gpt-6-luna",
+    "pricing": null,
+    "repetition": 1,
+    "task_wall_seconds": 300
+  },
+  "decoding": {
+    "max_output_tokens": 4096,
+    "reasoning_effort": "none"
+  },
+  "event": "summary",
+  "final_hashes": {
+    "input.csv": "f6feefbfc4c0a3d5060f64a632df160b30c060f04e4f605946847850fff8b58d",
+    "output.json": "a33d5907df8537f4110fa92b86438f215a42761d526bbad4438257d1e439e06e"
+  },
+  "input_hashes": {
+    "input.csv": "f6feefbfc4c0a3d5060f64a632df160b30c060f04e4f605946847850fff8b58d"
+  },
+  "metrics": {
+    "attempts": 2,
+    "cached_input_tokens": 0,
+    "calls": 14,
+    "context_peak": 2649,
+    "end_to_end_seconds": 66.679120477,
+    "feedback_input_tokens": null,
+    "input_tokens": 23609,
+    "last_verifier_ok": null,
+    "monetary_cost": null,
+    "output_tokens": 1704,
+    "retries": 1,
+    "retries_after_negative_verification": 0,
+    "returned_feedback_bytes": 1115,
+    "schema_input_tokens": null,
+    "tool_errors": 0,
+    "tool_output_bytes": 2,
+    "total_tokens": 25313,
+    "usage_complete": true,
+    "verification_input_tokens": null,
+    "verifier_cpu_seconds": 0.0,
+    "verifier_elapsed_seconds": 0.0,
+    "verifier_metrics_complete": true
+  },
+  "model": "gpt-6-luna",
+  "oracle_elapsed_seconds": 0.010583055,
+  "oracle_error": null,
+  "oracle_pass": true,
+  "pricing": null,
+  "repetition": 1,
+  "run_id": "1794900881101468005-1901615",
+  "started_unix_nanos": "1794900881101468005",
+  "success": true,
+  "synthetic": false,
+  "task": {
+    "complexity": "multi-step",
+    "expected_outcome": "success",
+    "family": "aggregation",
+    "generator_version": "suite-v3",
+    "id": "aggregation-v2-s2",
+    "input_bytes": 6985,
+    "input_hashes": {
+      "input.csv": "f6feefbfc4c0a3d5060f64a632df160b30c060f04e4f605946847850fff8b58d"
+    },
+    "invariants": [
+      "semantic JSON equality",
+      "null semantics respected",
+      "filter precedes aggregation",
+      "input unchanged",
+      "no extra keys"
+    ],
+    "limits": {
+      "artifact_bytes": 134217728,
+      "memory_bytes": 536870912,
+      "status": "dataset_defaults_not_protocol_frozen",
+      "wall_seconds": 60
+    },
+    "requirement": "Read input.csv using CSV-aware parsing; empty value means null. Values are base-10 integers; active is the literal true or false. Filter to active true before grouping by group. Compute sum and arithmetic mean of non-null value per group. Output {\"groups\": {GROUP: {\"sum\": INTEGER, \"average\": NUMBER_OR_NULL}}}. Use null for the average when no non-null values exist. Write only the specified JSON structure to output.json. Do not change input.csv. JSON key order and whitespace do not matter. Integer results are exact; means have absolute tolerance 0.000000001. Include all groups present after filtering.",
+    "seed": 2026,
+    "size_parameter": 500,
+    "size_unit": "rows",
+    "variant": 2
+  },
+  "task_id": "aggregation-v2-s2",
+  "termination": "finished",
+  "verifier_false_negative": null,
+  "verifier_false_positive": null
+}

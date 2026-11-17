@@ -1,0 +1,36 @@
+{
+  "after": {
+    "outside/": "directory",
+    "outside/untouched.txt": "0fa085ba45ebc183f6a9140cef51b1e9164ad01e72b858898440457cfc74fbcd",
+    "result.json": "7881efada0e3506c1fd53be48d3f759bdbb293e9cb4ddb12fc56944a962a87bb",
+    "scope/": "directory",
+    "scope/a.txt": "672c4bc16877b2bad26854a8bfc0786cf777cb9ad219da045bef8982f43071e8",
+    "scope/b.txt": "e0177d62e2ca54da974f13d7a50e7913fc711608645bdd90cd4e1043290cbb0a",
+    "scope/ignored.bin": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+    "scope/nested/": "directory",
+    "scope/nested/c.txt": "f0f9b4ef13109a4cfa796cea8a20669a5b28aa2208da4e6dc75c3dcff7a7de05",
+    "scope/nested/invalid.txt": "b3d510ef04275ca8e698e5b3cbb0ece3949ef9252f0cdc839e9ee347409a2209"
+  },
+  "after_error": null,
+  "before": {
+    "outside/": "directory",
+    "outside/untouched.txt": "0fa085ba45ebc183f6a9140cef51b1e9164ad01e72b858898440457cfc74fbcd",
+    "scope/": "directory",
+    "scope/a.txt": "672c4bc16877b2bad26854a8bfc0786cf777cb9ad219da045bef8982f43071e8",
+    "scope/b.txt": "e0177d62e2ca54da974f13d7a50e7913fc711608645bdd90cd4e1043290cbb0a",
+    "scope/ignored.bin": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+    "scope/nested/": "directory",
+    "scope/nested/c.txt": "f0f9b4ef13109a4cfa796cea8a20669a5b28aa2208da4e6dc75c3dcff7a7de05",
+    "scope/nested/invalid.txt": "b3d510ef04275ca8e698e5b3cbb0ece3949ef9252f0cdc839e9ee347409a2209"
+  },
+  "elapsed_seconds": 0.027634268,
+  "resource_limited": false,
+  "status": 0,
+  "stderr_bounded": "",
+  "stderr_bytes": 0,
+  "stderr_truncated": false,
+  "stdout_bounded": "",
+  "stdout_bytes": 0,
+  "stdout_truncated": false,
+  "timed_out": false
+}

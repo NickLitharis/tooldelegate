@@ -1,0 +1,49 @@
+{
+  "status": "frozen",
+  "version": "v3",
+  "frozen_at": "2026-11-17",
+  "extends": "configs/experiment-v2.json",
+  "reason": "v2 was pre-registered with a 55 s connector deadline and aborted after 43/576 cells: 9 adapter failures were slow but bounded streams (about 780 KB) cut at 55 s, not runaway streams. v3 keeps v2's reasoning fix and output cap, raises the per-call deadline to 115 s (harness 120 s) and the abortive stream cap to 2 MiB, and reruns the whole matrix. v2 is retained as aborted evidence and is never analyzed or pooled.",
+  "arms": ["A", "B", "C", "D"],
+  "dataset_seed": 2026,
+  "dataset_version": "suite-v3",
+  "main": {
+    "tasks": 48,
+    "repetitions_per_arm": 3,
+    "randomization_seed": 44,
+    "plan": "main-plan-v3.json"
+  },
+  "success_non_inferiority_margin_percentage_points": 5,
+  "margin_justification": "Unchanged: at most one additional failure per 20 runs in a non-safety-critical transformation workflow; frozen before v3 execution.",
+  "retry_budget": 1,
+  "limits": {
+    "config": "configs/run-v3.json",
+    "max_calls": 64,
+    "max_input_tokens": 300000,
+    "max_output_tokens": 128000,
+    "max_context_tokens": 400000,
+    "task_wall_seconds": 300,
+    "feedback_bytes": 65536,
+    "read_limit_bytes": 49080,
+    "model_output_tokens_per_call": 4096,
+    "connector_deadline_seconds": 115,
+    "harness_call_kill_seconds": 120,
+    "stream_cap_bytes": 2097152
+  },
+  "transport_policy": {
+    "reasoning_stream": "Encrypted reasoning content is not requested when effort is none.",
+    "stream_cap": "Abort and record a transport failure above 2 MiB.",
+    "deadline": "Connector stops at min(115 s, remaining-5 s); harness kills at min(120 s, remaining).",
+    "retries": "No automatic transport retry; unknown usage stays unknown.",
+    "rationale": "v2 showed the remaining failures were bounded slow streams killed at 55 s, so v3 gives them time to finish instead of shortening the deadline."
+  },
+  "moderation_policy": "Unchanged: provider content rejections are terminal, unretried failures with unknown usage and remain in every denominator; sensitivity excludes only those runs.",
+  "attribution_policy": "Unchanged: provider totals only; per-message attribution null; H3 uses total input tokens and returned feedback bytes.",
+  "analysis": {
+    "config": "configs/analysis-v3.json",
+    "primary": "D versus A: total tokens and success non-inferiority",
+    "rules": "Identical to v1/v2. v3 is reported separately; v1, v2, pilot and smoke runs are never pooled."
+  },
+  "execution": "Whole matrix, 576 cells. Disjoint shards allowed; no duplicate cells; shard membership not analyzed.",
+  "pricing": null
+}

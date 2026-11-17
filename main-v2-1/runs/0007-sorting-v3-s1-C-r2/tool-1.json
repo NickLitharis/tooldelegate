@@ -1,0 +1,19 @@
+{
+  "after": {
+    "input.csv": "64d7678438d35a52c2be0aa04513295c8d773725dbbf6deb630de7a9a28e2ad9"
+  },
+  "after_error": null,
+  "before": {
+    "input.csv": "64d7678438d35a52c2be0aa04513295c8d773725dbbf6deb630de7a9a28e2ad9"
+  },
+  "elapsed_seconds": 0.042565903,
+  "resource_limited": false,
+  "status": 1,
+  "stderr_bounded": "Traceback (most recent call last):\n  File \"<string>\", line 8, in <module>\n    data.sort(key=key); out=open('output.csv','w',newline='',encoding='utf-8'); w=csv.writer(out,lineterminator='\\n'); w.writerow(h); w.writerows(data); out.close()\n    ~~~~~~~~~^^^^^^^^^\n  File \"<string>\", line 3, in key\n    i,row=pair; s=row[j] if j<len(row) else ''\n    ^^^^^\nValueError: too many values to unpack (expected 2)\n",
+  "stderr_bytes": 404,
+  "stderr_truncated": false,
+  "stdout_bounded": "",
+  "stdout_bytes": 0,
+  "stdout_truncated": false,
+  "timed_out": false
+}

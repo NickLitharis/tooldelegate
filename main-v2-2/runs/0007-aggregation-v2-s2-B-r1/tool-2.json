@@ -1,0 +1,20 @@
+{
+  "after": {
+    "input.csv": "f6feefbfc4c0a3d5060f64a632df160b30c060f04e4f605946847850fff8b58d",
+    "output.json": "a33d5907df8537f4110fa92b86438f215a42761d526bbad4438257d1e439e06e"
+  },
+  "after_error": null,
+  "before": {
+    "input.csv": "f6feefbfc4c0a3d5060f64a632df160b30c060f04e4f605946847850fff8b58d"
+  },
+  "elapsed_seconds": 0.031811616,
+  "resource_limited": false,
+  "status": 0,
+  "stderr_bounded": "",
+  "stderr_bytes": 0,
+  "stderr_truncated": false,
+  "stdout_bounded": "",
+  "stdout_bytes": 0,
+  "stdout_truncated": false,
+  "timed_out": false
+}

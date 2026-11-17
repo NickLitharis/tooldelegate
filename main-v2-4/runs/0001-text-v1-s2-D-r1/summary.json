@@ -1,0 +1,121 @@
+{
+  "arm": "D",
+  "complete": true,
+  "config": {
+    "decoding": {
+      "max_output_tokens": 4096,
+      "reasoning_effort": "none"
+    },
+    "feedback_bytes": 65536,
+    "max_calls": 64,
+    "max_commands_per_attempt": 10,
+    "max_context_tokens": 400000,
+    "max_input_tokens": 300000,
+    "max_output_tokens": 128000,
+    "max_request_bytes": 16777216,
+    "max_retries": 1,
+    "model": "gpt-6-luna",
+    "pricing": null,
+    "repetition": 1,
+    "task_wall_seconds": 300
+  },
+  "decoding": {
+    "max_output_tokens": 4096,
+    "reasoning_effort": "none"
+  },
+  "event": "summary",
+  "final_hashes": {
+    "outside/": "directory",
+    "outside/untouched.txt": "0fa085ba45ebc183f6a9140cef51b1e9164ad01e72b858898440457cfc74fbcd",
+    "scope/": "directory",
+    "scope/a.txt": "2bc139afc5b54f61a47abd550e77bbcfbe2ce7300bdafea4aabdb012e51df93b",
+    "scope/b.txt": "4ebbe9823b01e9bdaa42746daa0d33b4850a61d7a62c9f71d5a09df0196be09e",
+    "scope/ignored.bin": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+    "scope/nested/": "directory",
+    "scope/nested/c.txt": "f0f9b4ef13109a4cfa796cea8a20669a5b28aa2208da4e6dc75c3dcff7a7de05"
+  },
+  "input_hashes": {
+    "outside/": "directory",
+    "outside/untouched.txt": "0fa085ba45ebc183f6a9140cef51b1e9164ad01e72b858898440457cfc74fbcd",
+    "scope/": "directory",
+    "scope/a.txt": "9c3281d4158fa14f62dc5cc82ab08c1f4c1fc904835edc28729523101c6da9c4",
+    "scope/b.txt": "4ebbe9823b01e9bdaa42746daa0d33b4850a61d7a62c9f71d5a09df0196be09e",
+    "scope/ignored.bin": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+    "scope/nested/": "directory",
+    "scope/nested/c.txt": "f0f9b4ef13109a4cfa796cea8a20669a5b28aa2208da4e6dc75c3dcff7a7de05"
+  },
+  "metrics": {
+    "attempts": 1,
+    "cached_input_tokens": 0,
+    "calls": 4,
+    "context_peak": 903,
+    "end_to_end_seconds": 15.524683541,
+    "feedback_input_tokens": null,
+    "input_tokens": 2899,
+    "last_verifier_ok": true,
+    "monetary_cost": null,
+    "output_tokens": 333,
+    "retries": 0,
+    "retries_after_negative_verification": 0,
+    "returned_feedback_bytes": 202,
+    "schema_input_tokens": null,
+    "tool_errors": 0,
+    "tool_output_bytes": 0,
+    "total_tokens": 3232,
+    "usage_complete": true,
+    "verification_input_tokens": null,
+    "verifier_cpu_seconds": 0.007042051999999999,
+    "verifier_elapsed_seconds": 0.010409283,
+    "verifier_metrics_complete": true
+  },
+  "model": "gpt-6-luna",
+  "oracle_elapsed_seconds": 0.010570644,
+  "oracle_error": null,
+  "oracle_pass": true,
+  "pricing": null,
+  "repetition": 1,
+  "run_id": "1794900816575183349-1901619",
+  "started_unix_nanos": "1794900816575183349",
+  "success": true,
+  "synthetic": false,
+  "task": {
+    "complexity": "simple",
+    "expected_outcome": "success",
+    "family": "text",
+    "generator_version": "suite-v3",
+    "id": "text-v1-s2",
+    "input_bytes": 44023,
+    "input_hashes": {
+      "outside/": "directory",
+      "outside/untouched.txt": "0fa085ba45ebc183f6a9140cef51b1e9164ad01e72b858898440457cfc74fbcd",
+      "scope/": "directory",
+      "scope/a.txt": "9c3281d4158fa14f62dc5cc82ab08c1f4c1fc904835edc28729523101c6da9c4",
+      "scope/b.txt": "4ebbe9823b01e9bdaa42746daa0d33b4850a61d7a62c9f71d5a09df0196be09e",
+      "scope/ignored.bin": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+      "scope/nested/": "directory",
+      "scope/nested/c.txt": "f0f9b4ef13109a4cfa796cea8a20669a5b28aa2208da4e6dc75c3dcff7a7de05"
+    },
+    "invariants": [
+      "all and only required matches replaced",
+      "replacement counts correct",
+      "unrelated bytes preserved",
+      "outside scope identical",
+      "line endings preserved"
+    ],
+    "limits": {
+      "artifact_bytes": 134217728,
+      "memory_bytes": 536870912,
+      "status": "dataset_defaults_not_protocol_frozen",
+      "wall_seconds": 60
+    },
+    "requirement": "In scope/a.txt only, replace case-sensitive whole-word red with blue. A word character is a Unicode alphanumeric character or underscore; a match must have no word character immediately before or after it. Edit files in place. Preserve every unrelated byte, UTF-8 encoding and each existing line ending. Create no files.",
+    "seed": 2026,
+    "size_parameter": 500,
+    "size_unit": "repeated_content_blocks",
+    "variant": 1
+  },
+  "task_id": "text-v1-s2",
+  "termination": "finished",
+  "verifier_false_negative": false,
+  "verifier_false_positive": false
+}

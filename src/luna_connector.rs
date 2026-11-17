@@ -28,10 +28,10 @@ use std::{
 
 const MAX_REQUEST_BYTES: usize = 32 * 1024 * 1024;
 const MAX_RESPONSE_BYTES: usize = 8 * 1024 * 1024;
-const MAX_STREAM_BYTES: usize = 1024 * 1024;
+const MAX_STREAM_BYTES: usize = 2 * 1024 * 1024;
 const MAX_STDERR_BYTES: usize = 64 * 1024;
 const MAX_PAYLOAD_BYTES: usize = 1024 * 1024;
-const DEFAULT_TIMEOUT_SECONDS: f64 = 55.0;
+const DEFAULT_TIMEOUT_SECONDS: f64 = 115.0;
 const DEFAULT_BASE_URL: &str = "https://chatgpt.com/backend-api/codex";
 
 fn err(message: impl Into<String>) -> Box<dyn Error> {
