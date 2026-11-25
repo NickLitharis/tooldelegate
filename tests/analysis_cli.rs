@@ -19,7 +19,7 @@ fn root() -> PathBuf {
     path
 }
 fn run(args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_verified-cli-benchmark"))
+    Command::new(env!("CARGO_BIN_EXE_tooldelegate"))
         .args(args)
         .output()
         .unwrap()

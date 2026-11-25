@@ -36,6 +36,6 @@ cargo run --locked -- plan-runs dataset main-plan-v2.json 43 3
 cargo run --locked -- run-plan dataset main-plan-v2.json main-v2 configs/run-v2.json configs/connector.luna.json
 ```
 
-The whole 576-cell matrix is rerun; no cell is selected on v1 outcomes. Execution may be split into disjoint shards of the same frozen plan (no duplicate cells); shard membership is not analyzed. Records, report and reproduction follow `docs/main-run.md` with `main-v2*`, `configs/analysis-v2.json` and `main-v2-report`.
+The whole 576-cell matrix is rerun; no cell is selected on v1 outcomes. Execution may be split into disjoint shards of the same frozen plan (no duplicate cells); shard membership is not analyzed. Records and reproduction follow `docs/main-run.md` with `main-v2*` and `configs/analysis-v2.json`. v2 was aborted after 43 cells, so no `main-v2-report` exists; v2 data are never pooled with v1/v3.
 
 Primary analysis is unchanged: D versus A on total tokens and success non-inferiority at a 5-point margin, with failures and unknown usage retained. H2 and H3 remain unavailable unless token usage is complete and attribution is null-safe; H4 remains observational.

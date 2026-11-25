@@ -255,7 +255,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     if args.len() != 4 {
         return Err(
-            "usage: verified-cli-benchmark DESTINATION SEED ROWS (destination must not exist)"
+            "usage: tooldelegate DESTINATION SEED ROWS (destination must not exist)"
                 .into(),
         );
     }

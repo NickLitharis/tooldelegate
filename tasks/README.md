@@ -1,4 +1,4 @@
-# Dataset suite v2 (not protocol-frozen)
+# Dataset suite (v3, protocol-frozen)
 
 Generate all inputs and manifests:
 
@@ -37,8 +37,8 @@ Reference sorting uses stable sorting; the oracle instead checks adjacent keys, 
 
 The full-suite test generates every instance twice, compares hashes, checks row counts, accepts 48 reference outputs, rejects an extra file for every task and rejects a corrupted task artifact for every task. Additional tests check hand-calculated aggregation, timestamp normalization, Unicode text boundaries, precision tolerance, stable ties, null placement and row preservation. Inputs and reference trees are checked against the 128 MiB artifact limit. The 60-second and 512 MiB limits are dataset defaults; resource enforcement belongs to the next sandbox step, not this generator.
 
-## Limitations before protocol freeze
+## Limitations
 
-This is 48 instances of 16 semantic variants, **not 48 independent transformation definitions**. Statistical analysis must account for size and variant relationships. Small v3 failure cases are not matched success-size measurements, so size analyses must distinguish outcome type rather than attributing their behavior solely to size. Runtime limits must be checked again against the selected model/tool environment before protocol freeze.
+This is 48 instances of 16 semantic variants, **not 48 independent transformation definitions**. Statistical analysis must account for size and variant relationships. Small v3 failure cases are not matched success-size measurements, so size analyses must distinguish outcome type rather than attributing their behavior solely to size. Runtime limits were re-checked against the selected model/tool environment at protocol freeze.
 
-The older `score`, `score-text`, `score-filesystem` and `score-aggregation` commands still score their original prototypes, not this suite. Use `score-suite-task` for suite v2. Neither reference answers nor oracle feedback may be accessible to experimental models. No sandbox or model runner exists yet: do not begin model experiments on these inputs.
+The older `score`, `score-text`, `score-filesystem` and `score-aggregation` commands still score their original prototypes, not this suite. Use `score-suite-task` for the suite. Neither reference answers nor oracle feedback may be accessible to experimental models. A sandboxed executor and model runner exist (`docs/execution.md`, `docs/model-runs.md`); run model experiments through the harness arms, not directly on these inputs.

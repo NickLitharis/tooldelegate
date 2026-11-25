@@ -1,10 +1,9 @@
 /target/
-__pycache__/
 # Raw run trees are retained on disk; committed records, indexes and reports are
-# the reproducible analysis inputs.
-/main/runs/
-/main-[0-9]*/runs/
-/main-v3-[0-9]*/runs/
+# the reproducible analysis inputs. Covers main/, all shard dirs (main-1..4,
+# main-v2-*, main-v3-*, main-v4-*) and the pilot.
+/main*/runs/
+/pilot/runs/
 
 
 # Local secrets; keep the checked-in template available.

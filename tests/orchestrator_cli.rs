@@ -40,7 +40,7 @@ fn replies(root: &Path, actions: &[Value]) {
 }
 
 fn run(root: &Path, arm: &str, name: &str) -> Value {
-    let output = Command::new(env!("CARGO_BIN_EXE_verified-cli-benchmark"))
+    let output = Command::new(env!("CARGO_BIN_EXE_tooldelegate"))
         .args([
             "replay-run",
             root.join("task").to_str().unwrap(),

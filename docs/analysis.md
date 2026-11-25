@@ -28,7 +28,7 @@ cargo run --locked -- analyze RECORDS.jsonl NEW_REPORT_DIRECTORY ANALYSIS_CONFIG
 
 The report directory must not exist. The analyzer rejects invalid records before it creates that directory. It rejects duplicate run IDs, duplicate matrix cells, changed task definitions and incompatible model configurations. It also rejects identical inputs and requirements presented under different task IDs. It never treats those duplicates as independent tasks.
 
-Synthetic data require `allow_synthetic: true`. Mixed synthetic and real records are rejected. Every synthetic report states that it contains test fixtures, not research measurements. All reports currently remain exploratory because the protocol is not frozen.
+Synthetic data require `allow_synthetic: true`. Mixed synthetic and real records are rejected. Every synthetic report states that it contains test fixtures, not research measurements. The v1 protocol was frozen before execution and the main study ran 576/576 cells (`docs/protocol.md`, `docs/main-run.md`); reports are labeled exploratory because the analyses are exploratory, not because the protocol is unfrozen.
 
 The output contains:
 
@@ -103,4 +103,4 @@ Task instances at different sizes can still share one semantic recipe. Their cor
 
 The H4 summaries correlate log serialized argument volume with interface errors, success and paired D/A token savings. Their bootstrap retains all arms within each task. Missing trace groups remain counted. Zero variation produces no correlation estimate.
 
-The report lists negative point estimates and unestablished requirements. It does not remove valid negative findings. No current report proves a delegation advantage or claims that the main experiment ran.
+The report lists negative point estimates and unestablished requirements. It does not remove valid negative findings. The v1 and v3 main reports record 576/576 executed cells each; they do not establish a token-saving advantage because some runs have unknown provider usage (`main-report/report.md`, `main-v3-report/report.md`, `reports/main-v3-usage-missingness-eda.md`).

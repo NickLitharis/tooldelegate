@@ -43,7 +43,7 @@ Raw run records remain authoritative; `pilot-summary.json` is regenerated from t
 ## Checks
 
 ```sh
-cargo test --locked --bin verified-cli-benchmark pilot
+cargo test --locked --bin tooldelegate pilot
 cargo test --locked --test pilot_cli
 ```
 

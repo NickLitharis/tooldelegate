@@ -27,7 +27,7 @@ fn request() -> Value {
 }
 
 fn run(port: u16, request: &Value) -> (std::process::Output, Value) {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_verified-cli-benchmark"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_tooldelegate"))
         .arg("luna-connector")
         .env("LUNA_ACCESS_TOKEN", "test-token")
         .env("LUNA_ACCOUNT_ID", "test-account")
@@ -211,7 +211,7 @@ fn connector_runs_through_the_orchestrator_with_api_usage() {
     fs::write(root.join("config.json"), config.to_string()).unwrap();
     fs::write(
         root.join("connector.json"),
-        json!({"program": env!("CARGO_BIN_EXE_verified-cli-benchmark"), "args": ["luna-connector"]}).to_string(),
+        json!({"program": env!("CARGO_BIN_EXE_tooldelegate"), "args": ["luna-connector"]}).to_string(),
     )
     .unwrap();
     let actions = [
@@ -227,7 +227,7 @@ fn connector_runs_through_the_orchestrator_with_api_usage() {
             .map(|action| action_stream(&action.to_string()))
             .collect(),
     );
-    let output = Command::new(env!("CARGO_BIN_EXE_verified-cli-benchmark"))
+    let output = Command::new(env!("CARGO_BIN_EXE_tooldelegate"))
         .args([
             "connector-run",
             root.join("task").to_str().unwrap(),

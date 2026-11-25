@@ -50,7 +50,7 @@ fn setup() -> PathBuf {
     .unwrap();
     fs::write(
         root.join("connector.json"),
-        json!({"program": env!("CARGO_BIN_EXE_verified-cli-benchmark"), "args": ["luna-connector"]})
+        json!({"program": env!("CARGO_BIN_EXE_tooldelegate"), "args": ["luna-connector"]})
             .to_string(),
     )
     .unwrap();
@@ -60,7 +60,7 @@ fn setup() -> PathBuf {
 }
 
 fn binary() -> Command {
-    Command::new(env!("CARGO_BIN_EXE_verified-cli-benchmark"))
+    Command::new(env!("CARGO_BIN_EXE_tooldelegate"))
 }
 
 fn plan(root: &Path, pilot: &Path) -> Output {
